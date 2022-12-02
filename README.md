@@ -2,7 +2,10 @@
 
 World of Tanks Blitz replay parser in Rust.
 
+[![Crates.io](https://img.shields.io/crates/v/wotbreplay-parser)](https://crates.io/crates/wotbreplay-parser)
 [![Last commit](https://img.shields.io/github/last-commit/eigenein/wotbreplay-parser)](https://github.com/eigenein/wotbreplay-parser/commits/main)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/eigenein/wotbreplay-parser/Check)](https://github.com/eigenein/wotbreplay-parser/actions)
+![License: MIT](https://img.shields.io/crates/l/wotbreplay-parser)
 
 ## Replay structure
 
