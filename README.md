@@ -1,4 +1,4 @@
-### `wotbreplay-parser`
+# `wotbreplay-parser`
 
 World of Tanks Blitz replay parser in Rust.
 
