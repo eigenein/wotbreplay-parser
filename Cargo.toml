@@ -14,4 +14,11 @@ categories = []
 default = []
 
 [dependencies]
-thiserror = "1.0.31"
+prost = "0.11.3"
+serde_bytes = "0.11.7"
+serde-pickle = "1.1.1"
+thiserror = "1.0.37"
+zip = { version = "0.6.3", default-features = false, features = ["deflate"] }
+
+[dev-dependencies]
+anyhow = "1.0.66"
