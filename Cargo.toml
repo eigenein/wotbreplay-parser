@@ -1,0 +1,17 @@
+[package]
+name = "wotbreplay-parser"
+description = "World of Tanks Blitz replay parser"
+version = "0.0.0"
+edition = "2021"
+authors = ["Pavel Perestoronin <eigenein@gmail.com>"]
+readme = "README.md"
+repository = "https://github.com/eigenein/wotbreplay-parser"
+license = "MIT"
+keywords = []
+categories = []
+
+[features]
+default = []
+
+[dependencies]
+thiserror = "1.0.31"
