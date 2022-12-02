@@ -17,6 +17,12 @@ This is a [pickled](https://docs.python.org/3/library/pickle.html) 2-tuple:
 - Some big number
 - Battle results serialized with [Protocol Buffers](https://developers.google.com/protocol-buffers)
 
+#### Useful tools
+
+- [Protobuf Decoder](https://protobuf-decoder.netlify.app/)
+- [`protobuf-inspector`](https://github.com/mildsunrise/protobuf-inspector)
+- [Hex Fiend](https://hexfiend.com/)
+
 ### `meta.json`
 
 ### `data.wotreplay`
