@@ -1,3 +1,9 @@
+### `wotbreplay-parser`
+
+World of Tanks Blitz replay parser in Rust.
+
+[![Last commit](https://img.shields.io/github/last-commit/eigenein/wotbreplay-parser)](https://github.com/eigenein/wotbreplay-parser/commits/main)
+
 ## Replay structure
 
 `*.wotbreplay` is a ZIP-archive containing:
