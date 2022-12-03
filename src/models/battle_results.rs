@@ -13,6 +13,7 @@ impl BattleResults {
     }
 }
 
+/// Parsed battle results.
 #[derive(Message)]
 pub struct BattleResults {
     /// Battle timestamp.
@@ -24,6 +25,7 @@ pub struct BattleResults {
     pub players: Vec<Player>,
 }
 
+/// Battle player.
 #[derive(Message)]
 pub struct Player {
     /// Player's account ID.
@@ -35,12 +37,16 @@ pub struct Player {
     pub info: PlayerInfo,
 }
 
+/// Player's extended information.
 #[derive(Message)]
 pub struct PlayerInfo {
     /// Player's nickname.
     #[prost(string, tag = "1")]
     pub nickname: String,
 
+    /// Some sort of platoon ID:
+    /// - contains same ID for a platoon members, or
+    /// - `None` for non-platoon players
     #[prost(uint32, optional, tag = "2")]
     pub platoon_id: Option<u32>,
 

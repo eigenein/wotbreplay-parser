@@ -1,6 +1,5 @@
 use std::io::{Read, Seek};
 
-use prost::Message;
 use zip::ZipArchive;
 
 use crate::error::Error;
@@ -24,7 +23,6 @@ impl<R: Read + Seek> Replay<R> {
             .0
             .by_name("battle_results.dat")
             .map_err(Error::OpenBattleResultsFailed)?;
-        let battle_results_dat = BattleResultsDat::from_reader(pickled_battle_results)?;
-        BattleResults::decode(battle_results_dat.1.as_ref()).map_err(Error::DecodeFailed)
+        BattleResultsDat::from_reader(pickled_battle_results)?.decode_battle_results()
     }
 }
