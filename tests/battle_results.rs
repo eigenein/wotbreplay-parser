@@ -39,6 +39,8 @@ fn player_results_ok() -> Result<()> {
     assert_eq!(snak_the_ripper_info.n_hits_dealt, 5);
     assert_eq!(snak_the_ripper_info.n_penetrations_dealt, 5);
     assert_eq!(snak_the_ripper_info.tank_id, 5233);
+    assert_eq!(snak_the_ripper_info.n_enemies_damaged, 3);
+    assert_eq!(snak_the_ripper_info.n_enemies_destroyed, 2);
 
     let zeekrab_info = &battle_results.player_results[10].info;
     assert_eq!(zeekrab_info.base_xp, 701);
@@ -56,6 +58,9 @@ fn player_results_ok() -> Result<()> {
     assert_eq!(zeekrab_info.victory_points_1, 40);
     assert_eq!(zeekrab_info.victory_points_2, 40);
     assert_eq!(zeekrab_info.tank_id, 26657);
+    assert_eq!(zeekrab_info.credits, 37679);
+    assert_eq!(zeekrab_info.n_enemies_damaged, 2);
+    assert_eq!(zeekrab_info.n_enemies_destroyed, 1);
 
     let balls_soup_info = &battle_results.player_results[8].info;
     assert_eq!(balls_soup_info.damage_dealt, 2064);
@@ -67,6 +72,8 @@ fn player_results_ok() -> Result<()> {
     assert_eq!(balls_soup_info.n_penetrations_received, 4);
     assert_eq!(balls_soup_info.n_non_penetrating_hits_received, 2);
     assert_eq!(balls_soup_info.tank_id, 4737);
+    assert_eq!(balls_soup_info.n_enemies_damaged, 4);
+    assert_eq!(balls_soup_info.n_enemies_destroyed, 1);
 
     let ceaser_info = &battle_results.player_results[0].info;
     assert_eq!(ceaser_info.damage_dealt, 919);
@@ -74,6 +81,8 @@ fn player_results_ok() -> Result<()> {
     assert_eq!(ceaser_info.n_shots, 9);
     assert_eq!(ceaser_info.n_hits_dealt, 6);
     assert_eq!(ceaser_info.n_penetrations_dealt, 5);
+    assert_eq!(ceaser_info.n_enemies_damaged, 3);
+    assert_eq!(ceaser_info.n_enemies_destroyed, 0);
 
     Ok(())
 }

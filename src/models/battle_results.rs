@@ -82,6 +82,10 @@ pub struct PlayerResults {
 /// Extended player's results information.
 #[derive(Message)]
 pub struct PlayerResultsInfo {
+    /// Credits earned – without special awards and medals and premium account excluded.
+    #[prost(uint32, tag = "2")]
+    pub credits: u32,
+
     /// Base XP (the total without multipliers).
     #[prost(uint32, tag = "3")]
     pub base_xp: u32,
@@ -98,9 +102,11 @@ pub struct PlayerResultsInfo {
     #[prost(uint32, tag = "8")]
     pub damage_dealt: u32,
 
+    /// TODO: distinguish the kinds of assisted damage.
     #[prost(uint32, tag = "9")]
     pub damage_assisted_1: u32,
 
+    /// TODO: distinguish the kinds of assisted damage.
     #[prost(uint32, tag = "10")]
     pub damage_assisted_2: u32,
 
@@ -112,6 +118,12 @@ pub struct PlayerResultsInfo {
 
     #[prost(uint32, tag = "15")]
     pub n_penetrations_received: u32,
+
+    #[prost(uint32, tag = "17")]
+    pub n_enemies_damaged: u32,
+
+    #[prost(uint32, tag = "18")]
+    pub n_enemies_destroyed: u32,
 
     /// TODO: distinguish earned vs seized.
     #[prost(uint32, tag = "32")]
