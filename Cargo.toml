@@ -7,8 +7,8 @@ authors = ["Pavel Perestoronin <eigenein@gmail.com>"]
 readme = "README.md"
 repository = "https://github.com/eigenein/wotbreplay-parser"
 license = "MIT"
-keywords = []
-categories = []
+keywords = ["world-of-tanks-blitz", "replay", "parser", "wargaming", "results"]
+categories = ["parsing"]
 
 [features]
 default = []
