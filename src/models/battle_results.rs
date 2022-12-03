@@ -125,6 +125,10 @@ pub struct PlayerResultsInfo {
     #[prost(uint32, tag = "101")]
     pub account_id: u32,
 
+    /// Player's tank ID as per Wargaming.net API.
+    #[prost(uint32, tag = "103")]
+    pub tank_id: u32,
+
     /// Rating for the Rating Battles.
     ///
     /// Note, that this is **not** the game client's displayed rating.
