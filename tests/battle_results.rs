@@ -1,12 +1,11 @@
 use std::fs::File;
 
 use anyhow::Result;
-use wotbreplay_parser::models::TeamNumber;
 use wotbreplay_parser::Replay;
 
 #[test]
 fn player_results_ok() -> Result<()> {
-    let battle_results = Replay::open(File::open("tests/replays/player_results_ok.wotbreplay")?)?
+    let battle_results = Replay::open(File::open("tests/replays/player_results.wotbreplay")?)?
         .read_battle_results()?;
 
     let snak_the_ripper_info = &battle_results.player_results[3].info;
@@ -35,8 +34,8 @@ fn player_results_ok() -> Result<()> {
     assert_eq!(zeekrab_info.n_hits_received, 3);
     assert_eq!(zeekrab_info.n_penetrations_received, 3);
     assert_eq!(zeekrab_info.n_non_penetrating_hits_received, 0);
-    assert_eq!(zeekrab_info.victory_points_1, 40);
-    assert_eq!(zeekrab_info.victory_points_2, 40);
+    assert_eq!(zeekrab_info.victory_points_earned, 40);
+    assert_eq!(zeekrab_info.victory_points_seized, 40);
     assert_eq!(zeekrab_info.tank_id, 26657);
     assert_eq!(zeekrab_info.credits, 37679);
     assert_eq!(zeekrab_info.n_enemies_damaged, 2);
@@ -69,12 +68,29 @@ fn player_results_ok() -> Result<()> {
 
 #[test]
 fn clan_tags_ok() -> Result<()> {
-    let battle_results = Replay::open(File::open("tests/replays/player_results_ok.wotbreplay")?)?
+    let battle_results = Replay::open(File::open("tests/replays/player_results.wotbreplay")?)?
         .read_battle_results()?;
 
     assert_eq!(battle_results.players[1].info.clan_tag.as_deref(), Some("AN0NY"));
     assert_eq!(battle_results.players[10].info.clan_tag.as_deref(), Some("BBS"));
     assert_eq!(battle_results.players[11].info.clan_tag, None);
+
+    Ok(())
+}
+
+#[test]
+fn victory_points_ok() -> Result<()> {
+    let battle_results = Replay::open(File::open("tests/replays/victory_points.wotbreplay")?)?
+        .read_battle_results()?;
+
+    assert_eq!(battle_results.player_results[1].info.victory_points_seized, 40);
+    assert_eq!(battle_results.player_results[1].info.victory_points_earned, 40);
+
+    assert_eq!(battle_results.player_results[3].info.victory_points_seized, 0);
+    assert_eq!(battle_results.player_results[3].info.victory_points_earned, 112);
+
+    assert_eq!(battle_results.player_results[5].info.victory_points_earned, 280);
+    assert_eq!(battle_results.player_results[5].info.victory_points_seized, 0);
 
     Ok(())
 }

@@ -18,7 +18,7 @@ use wotbreplay_parser::Replay;
 use wotbreplay_parser::models::TeamNumber;
 
 fn main() -> Result<()> {
-    let battle_results = Replay::open(File::open("tests/replays/battle_results_ok.wotbreplay")?)?
+    let battle_results = Replay::open(File::open("tests/replays/battle_results.wotbreplay")?)?
         .read_battle_results()?;
 
     assert_eq!(battle_results.timestamp, 1670018359);

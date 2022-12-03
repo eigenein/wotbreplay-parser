@@ -128,13 +128,11 @@ pub struct PlayerResultsInfo {
     #[prost(uint32, tag = "18")]
     pub n_enemies_destroyed: u32,
 
-    /// TODO: distinguish earned vs seized.
     #[prost(uint32, tag = "32")]
-    pub victory_points_1: u32,
+    pub victory_points_earned: u32,
 
-    /// TODO: distinguish earned vs seized.
     #[prost(uint32, tag = "33")]
-    pub victory_points_2: u32,
+    pub victory_points_seized: u32,
 
     /// Player's account ID.
     #[prost(uint32, tag = "101")]
