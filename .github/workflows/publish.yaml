@@ -42,7 +42,6 @@ jobs:
         with:
           release_name: ${{ github.ref_name }}
           body: ${{ steps.changelog.outputs.changelog }}
-          prerelease: false
 
       - name: Publish the crates
         run: |
