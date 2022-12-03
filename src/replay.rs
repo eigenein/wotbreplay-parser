@@ -1,11 +1,10 @@
 use std::io::{Read, Seek};
 
 use prost::Message;
-use serde_bytes::ByteBuf;
 use zip::ZipArchive;
 
 use crate::error::Error;
-use crate::models::BattleResults;
+use crate::models::{BattleResults, BattleResultsDat};
 use crate::result::Result;
 
 pub struct Replay<R>(pub(crate) ZipArchive<R>);
@@ -27,9 +26,9 @@ impl<R: Read + Seek> Replay<R> {
         pickled_battle_results
             .read_to_end(&mut serialized_battle_results)
             .map_err(Error::ReadEntryFailed)?;
-        let (_, battle_results): (u64, ByteBuf) =
+        let battle_results_dat: BattleResultsDat =
             serde_pickle::from_slice(&serialized_battle_results, Default::default())
                 .map_err(Error::UnpickleFailed)?;
-        BattleResults::decode(battle_results.as_ref()).map_err(Error::DecodeFailed)
+        BattleResults::decode(battle_results_dat.1.as_ref()).map_err(Error::DecodeFailed)
     }
 }

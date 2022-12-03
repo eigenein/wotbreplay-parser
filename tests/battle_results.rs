@@ -5,9 +5,7 @@ use wotbreplay_parser::Replay;
 
 #[test]
 fn battle_results_ok() -> Result<()> {
-    let mut replay = Replay::open(File::open(
-        "tests/replays/20221202_2259__zeekrab_It20_Car_Comb_45t_2308705958773814583.wotbreplay",
-    )?)?;
+    let mut replay = Replay::open(File::open("tests/replays/battle_results_ok.wotbreplay")?)?;
     let battle_results = replay.read_battle_results()?;
 
     assert_eq!(battle_results.timestamp, 1670018359);

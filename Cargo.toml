@@ -15,6 +15,7 @@ default = []
 
 [dependencies]
 prost = "0.11.3"
+serde = { version = "1.0.148", features = ["derive"] }
 serde_bytes = "0.11.7"
 serde-pickle = "1.1.1"
 thiserror = "1.0.37"
