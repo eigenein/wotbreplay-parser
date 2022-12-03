@@ -57,6 +57,9 @@ pub struct PlayerInfo {
     /// Player's team assignment.
     #[prost(enumeration = "TeamNumber", tag = "3")]
     pub team_number: i32,
+
+    #[prost(string, optional, tag = "5")]
+    pub clan_tag: Option<String>,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, prost::Enumeration)]

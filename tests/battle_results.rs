@@ -86,3 +86,15 @@ fn player_results_ok() -> Result<()> {
 
     Ok(())
 }
+
+#[test]
+fn clan_tags_ok() -> Result<()> {
+    let battle_results = Replay::open(File::open("tests/replays/player_results_ok.wotbreplay")?)?
+        .read_battle_results()?;
+
+    assert_eq!(battle_results.players[1].info.clan_tag.as_deref(), Some("AN0NY"));
+    assert_eq!(battle_results.players[10].info.clan_tag.as_deref(), Some("BBS"));
+    assert_eq!(battle_results.players[11].info.clan_tag, None);
+
+    Ok(())
+}
