@@ -18,16 +18,12 @@ impl<R: Read + Seek> Replay<R> {
     }
 
     pub fn read_battle_results(&mut self) -> Result<BattleResults> {
-        let mut pickled_battle_results = self
+        let pickled_battle_results = self
             .0
             .by_name("battle_results.dat")
             .map_err(Error::OpenBattleResultsFailed)?;
-        let mut serialized_battle_results = Vec::new();
-        pickled_battle_results
-            .read_to_end(&mut serialized_battle_results)
-            .map_err(Error::ReadEntryFailed)?;
         let battle_results_dat: BattleResultsDat =
-            serde_pickle::from_slice(&serialized_battle_results, Default::default())
+            serde_pickle::from_reader(pickled_battle_results, Default::default())
                 .map_err(Error::UnpickleFailed)?;
         BattleResults::decode(battle_results_dat.1.as_ref()).map_err(Error::DecodeFailed)
     }
