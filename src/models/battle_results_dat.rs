@@ -11,7 +11,7 @@ use crate::{Error, Result};
 #[derive(Debug, Deserialize)]
 pub struct BattleResultsDat(
     /// No idea what this is.
-    /// My best guess – this is some of checksum,
+    /// My best guess – some kind of checksum,
     /// but none of MD5, SHA1, SHA224, SHA256, SHA384, SHA512, nor CRC64 over the buffer have matched.
     pub u64,
     /// Protobuf-serialized battle results.
