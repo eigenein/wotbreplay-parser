@@ -1,5 +1,6 @@
 use prost::bytes::Buf;
 use prost::Message;
+use serde::Serialize;
 
 use crate::error::Error;
 use crate::result::Result;
@@ -14,7 +15,7 @@ impl BattleResults {
 }
 
 /// Parsed battle results.
-#[derive(Message)]
+#[derive(Message, Serialize)]
 pub struct BattleResults {
     /// Battle timestamp.
     #[prost(int64, tag = "2")]
@@ -30,7 +31,7 @@ pub struct BattleResults {
 }
 
 /// Battle player.
-#[derive(Message)]
+#[derive(Message, Serialize)]
 pub struct Player {
     /// Player's account ID.
     #[prost(uint32, tag = "1")]
@@ -42,7 +43,7 @@ pub struct Player {
 }
 
 /// Player's extended information.
-#[derive(Message)]
+#[derive(Message, Serialize)]
 pub struct PlayerInfo {
     /// Player's nickname.
     #[prost(string, tag = "1")]
@@ -62,7 +63,9 @@ pub struct PlayerInfo {
     pub clan_tag: Option<String>,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, prost::Enumeration)]
+#[derive(
+    Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, prost::Enumeration, Serialize,
+)]
 #[repr(i32)]
 pub enum TeamNumber {
     One = 1,
@@ -70,7 +73,7 @@ pub enum TeamNumber {
 }
 
 /// Player's battle results.
-#[derive(Message)]
+#[derive(Message, Serialize)]
 pub struct PlayerResults {
     /// Looks like some sort of sequential result ID. They reference each other,
     /// but I haven't figured this out yet.
@@ -83,7 +86,7 @@ pub struct PlayerResults {
 }
 
 /// Extended player's results information.
-#[derive(Message)]
+#[derive(Message, Serialize)]
 pub struct PlayerResultsInfo {
     /// Credits earned – without special awards and medals and premium account excluded.
     #[prost(uint32, tag = "2")]
