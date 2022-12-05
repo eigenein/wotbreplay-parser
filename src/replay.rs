@@ -19,10 +19,15 @@ impl<R: Read + Seek> Replay<R> {
 
     /// Reads and parses the battle results from the replay.
     pub fn read_battle_results(&mut self) -> Result<BattleResults> {
+        self.read_battle_results_dat()?.decode_battle_results()
+    }
+
+    /// Reads and parses the included `battle_results.dat`.
+    pub fn read_battle_results_dat(&mut self) -> Result<BattleResultsDat> {
         let pickled_battle_results = self
             .0
             .by_name("battle_results.dat")
             .map_err(Error::OpenBattleResultsFailed)?;
-        BattleResultsDat::from_reader(pickled_battle_results)?.decode_battle_results()
+        BattleResultsDat::from_reader(pickled_battle_results)
     }
 }
