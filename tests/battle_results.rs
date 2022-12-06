@@ -38,7 +38,7 @@ fn player_results_ok() -> Result<()> {
     assert_eq!(zeekrab_info.victory_points_earned, 40);
     assert_eq!(zeekrab_info.victory_points_seized, 40);
     assert_eq!(zeekrab_info.tank_id, 26657);
-    assert_eq!(zeekrab_info.credits, 37679);
+    assert_eq!(zeekrab_info.credits_earned, 37679);
     assert_eq!(zeekrab_info.n_enemies_damaged, 2);
     assert_eq!(zeekrab_info.n_enemies_destroyed, 1);
 
@@ -102,6 +102,19 @@ fn winning_team_ok() -> Result<()> {
         .read_battle_results()?;
 
     assert_eq!(battle_results.winning_team(), TeamNumber::One);
+
+    Ok(())
+}
+
+#[test]
+fn author_results_ok() -> Result<()> {
+    let battle_results = Replay::open(File::open("tests/replays/author_results.wotbreplay")?)?
+        .read_battle_results()?;
+
+    assert_eq!(battle_results.author_results.credits_earned, 53623);
+    assert_eq!(battle_results.author_results.combat_xp, 2370);
+    assert_eq!(battle_results.author_results.damage_dealt, 1738);
+    assert_eq!(battle_results.free_xp, 116);
 
     Ok(())
 }

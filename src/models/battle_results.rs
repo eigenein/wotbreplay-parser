@@ -24,6 +24,14 @@ pub struct BattleResults {
     #[prost(enumeration = "TeamNumber", tag = "3")]
     pub winning_team: i32,
 
+    /// Replay's author results.
+    #[prost(message, required, tag = "8")]
+    pub author_results: AuthorResults,
+
+    /// Author's free XP, including premium.
+    #[prost(uint32, tag = "137")]
+    pub free_xp: u32,
+
     /// Players in the battle.
     #[prost(message, repeated, tag = "201")]
     pub players: Vec<Player>,
@@ -93,7 +101,7 @@ pub struct PlayerResults {
 pub struct PlayerResultsInfo {
     /// Credits earned – without special awards and medals and premium account excluded.
     #[prost(uint32, tag = "2")]
-    pub credits: u32,
+    pub credits_earned: u32,
 
     /// Base XP (the total without multipliers).
     #[prost(uint32, tag = "3")]
@@ -165,4 +173,18 @@ impl PlayerResultsInfo {
         self.mm_rating
             .map(|mm_rating| (mm_rating * 10.0 + 3000.0) as u32)
     }
+}
+
+#[derive(Message, Serialize)]
+pub struct AuthorResults {
+    /// Earned credits, including premium and special awards and medals.
+    #[prost(uint32, tag = "2")]
+    pub credits_earned: u32,
+
+    /// Combat XP, including premium.
+    #[prost(uint32, tag = "3")]
+    pub combat_xp: u32,
+
+    #[prost(uint32, tag = "8")]
+    pub damage_dealt: u32,
 }
