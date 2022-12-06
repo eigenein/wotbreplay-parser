@@ -26,11 +26,11 @@ fn main() -> Result<()> {
 
     assert_eq!(battle_results.players[0].account_id, 520886428);
     assert_eq!(battle_results.players[0].info.nickname, "77mmmr");
-    assert_eq!(battle_results.players[0].info.team_number(), TeamNumber::Two);
+    assert_eq!(battle_results.players[0].info.team(), TeamNumber::Two);
     assert_eq!(battle_results.players[0].info.platoon_id, None);
 
     assert_eq!(battle_results.players[1].info.nickname, "SNAK_THE_RIPPER");
-    assert_eq!(battle_results.players[1].info.team_number(), TeamNumber::One);
+    assert_eq!(battle_results.players[1].info.team(), TeamNumber::One);
     assert_eq!(battle_results.players[1].info.platoon_id, Some(547466834));
 
     Ok(())

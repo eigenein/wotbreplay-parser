@@ -1,6 +1,7 @@
 use std::fs::File;
 
 use anyhow::Result;
+use wotbreplay_parser::models::TeamNumber;
 use wotbreplay_parser::Replay;
 
 #[test]
@@ -91,6 +92,16 @@ fn victory_points_ok() -> Result<()> {
 
     assert_eq!(battle_results.player_results[5].info.victory_points_earned, 280);
     assert_eq!(battle_results.player_results[5].info.victory_points_seized, 0);
+
+    Ok(())
+}
+
+#[test]
+fn winning_team_ok() -> Result<()> {
+    let battle_results = Replay::open(File::open("tests/replays/winning_team.wotbreplay")?)?
+        .read_battle_results()?;
+
+    assert_eq!(battle_results.winning_team(), TeamNumber::One);
 
     Ok(())
 }
