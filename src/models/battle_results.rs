@@ -21,6 +21,7 @@ pub struct BattleResults {
     #[prost(int64, tag = "2")]
     pub timestamp: i64,
 
+    // TODO: tag 3 – winning team number?
     /// Players in the battle.
     #[prost(message, repeated, tag = "201")]
     pub players: Vec<Player>,
