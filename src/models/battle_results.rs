@@ -72,6 +72,9 @@ pub struct PlayerInfo {
 
     #[prost(string, optional, tag = "5")]
     pub clan_tag: Option<String>,
+
+    #[prost(message, required, tag = "7")]
+    pub avatar: Avatar,
 }
 
 #[derive(
@@ -190,4 +193,22 @@ pub struct Author {
 
     #[prost(uint32, tag = "101")]
     pub account_id: u32,
+}
+
+#[derive(Message, Serialize)]
+pub struct Avatar {
+    #[prost(message, required, tag = "2")]
+    pub info: AvatarInfo,
+}
+
+#[derive(Message, Serialize)]
+pub struct AvatarInfo {
+    #[prost(string, tag = "2")]
+    pub gfx_url: String,
+
+    #[prost(string, tag = "3")]
+    pub gfx2_url: String,
+
+    #[prost(string, tag = "4")]
+    pub kind: String,
 }

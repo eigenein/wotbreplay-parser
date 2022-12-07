@@ -67,12 +67,23 @@ fn player_results_ok() -> Result<()> {
 }
 
 #[test]
-fn clan_tags_ok() -> Result<()> {
+fn player_info_ok() -> Result<()> {
     let battle_results = Replay::open(File::open("tests/replays/player_results.wotbreplay")?)?
         .read_battle_results()?;
 
     assert_eq!(battle_results.players[1].info.clan_tag.as_deref(), Some("AN0NY"));
+
     assert_eq!(battle_results.players[10].info.clan_tag.as_deref(), Some("BBS"));
+    assert_eq!(battle_results.players[10].info.avatar.info.kind, "legendary");
+    assert_eq!(
+        battle_results.players[10].info.avatar.info.gfx_url,
+        "https://stufficons.wgcdn.co/Gfx/avatar_UFO_legendary_anim/220523_104739_752791.webp"
+    );
+    assert_eq!(
+        battle_results.players[10].info.avatar.info.gfx2_url,
+        "https://stufficons.wgcdn.co/Gfx2/avatar_UFO_legendary_anim/220523_104755_251331.webp"
+    );
+
     assert_eq!(battle_results.players[11].info.clan_tag, None);
 
     Ok(())
