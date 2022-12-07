@@ -4,8 +4,9 @@ use prost::Message;
 use serde::Deserialize;
 use serde_bytes::ByteBuf;
 
+use crate::error::Error;
 use crate::models::BattleResults;
-use crate::{Error, Result};
+use crate::result::Result;
 
 /// Represents un-pickled `battle_results.dat`.
 #[derive(Debug, Deserialize)]

@@ -11,13 +11,10 @@
 )]
 
 mod error;
-pub mod models;
+mod models;
+pub mod prelude;
 mod replay;
 mod result;
-
-pub use crate::error::Error;
-pub use crate::replay::Replay;
-pub use crate::result::Result;
 
 #[cfg(doctest)]
 mod test_readme {
