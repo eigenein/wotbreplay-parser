@@ -113,7 +113,7 @@ fn author_results_ok() -> Result<()> {
     assert_eq!(battle_results.author.credits_earned, 53623);
     assert_eq!(battle_results.author.combat_xp, 2370);
     assert_eq!(battle_results.author.damage_dealt, 1738);
-    assert_eq!(battle_results.author.account_id, AccountId(594778041));
+    assert_eq!(battle_results.author.account_id, 594778041);
     assert_eq!(battle_results.free_xp, 116);
 
     Ok(())
