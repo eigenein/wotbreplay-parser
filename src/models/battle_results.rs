@@ -26,7 +26,7 @@ pub struct BattleResults {
 
     /// Replay's author results.
     #[prost(message, required, tag = "8")]
-    pub author_results: AuthorResults,
+    pub author: Author,
 
     /// Author's free XP, including premium.
     #[prost(uint32, tag = "137")]
@@ -176,7 +176,7 @@ impl PlayerResultsInfo {
 }
 
 #[derive(Message, Serialize)]
-pub struct AuthorResults {
+pub struct Author {
     /// Earned credits, including premium and special awards and medals.
     #[prost(uint32, tag = "2")]
     pub credits_earned: u32,
@@ -187,4 +187,7 @@ pub struct AuthorResults {
 
     #[prost(uint32, tag = "8")]
     pub damage_dealt: u32,
+
+    #[prost(uint32, tag = "101")]
+    pub account_id: u32,
 }
