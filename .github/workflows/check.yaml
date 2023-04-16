@@ -49,3 +49,9 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           args: --all-targets --all-features --tests -- -D warnings
+
+      - name: Publish the crates (dry run)
+        run: |
+          cargo publish --allow-dirty --dry-run
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}

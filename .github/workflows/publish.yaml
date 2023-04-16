@@ -45,7 +45,6 @@ jobs:
 
       - name: Publish the crates
         run: |
-          cargo login
           cargo publish --allow-dirty
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
