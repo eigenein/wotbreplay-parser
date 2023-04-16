@@ -9,7 +9,7 @@ impl BattleResults {
     /// Parse battle results from the buffer.
     ///
     /// Note, that this does NOT parse `battle_results.dat` itself, but the un-pickled tuple element.
-    pub fn parse(buffer: impl Buf) -> Result<Self> {
+    pub fn from_buffer(buffer: impl Buf) -> Result<Self> {
         Self::decode(buffer).map_err(Error::DecodeFailed)
     }
 }
