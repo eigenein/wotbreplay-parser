@@ -193,6 +193,9 @@ pub struct Author {
 
     #[prost(uint32, tag = "101")]
     pub account_id: u32,
+
+    #[prost(enumeration = "TeamNumber", tag = "102")]
+    pub team_number: i32,
 }
 
 #[derive(Message, Serialize)]
