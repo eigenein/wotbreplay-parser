@@ -30,3 +30,11 @@ impl BattleResultsDat {
         BattleResults::decode(self.1.as_ref()).map_err(Error::DecodeFailed)
     }
 }
+
+impl TryInto<BattleResults> for BattleResultsDat {
+    type Error = Error;
+
+    fn try_into(self) -> Result<BattleResults> {
+        self.decode_battle_results()
+    }
+}
