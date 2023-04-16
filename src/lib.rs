@@ -2,12 +2,13 @@
 
 #![warn(
     clippy::all,
-    clippy::missing_const_for_fn,
-    clippy::trivially_copy_pass_by_ref,
-    clippy::map_unwrap_or,
     clippy::explicit_into_iter_loop,
-    clippy::unused_self,
-    clippy::needless_pass_by_value
+    clippy::manual_let_else,
+    clippy::map_unwrap_or,
+    clippy::missing_const_for_fn,
+    clippy::needless_pass_by_value,
+    clippy::trivially_copy_pass_by_ref,
+    clippy::unused_self
 )]
 
 mod error;
