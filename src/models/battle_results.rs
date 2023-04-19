@@ -15,6 +15,8 @@ impl BattleResults {
 }
 
 /// Parsed battle results.
+///
+/// TODO: 150[0].21[0].8[0].801[0].unsigned is arena end time.
 #[derive(Message, Serialize)]
 pub struct BattleResults {
     /// Battle timestamp.

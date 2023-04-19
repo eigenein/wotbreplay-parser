@@ -21,6 +21,9 @@ pub struct BattleResultsDat(
 
 impl BattleResultsDat {
     /// Parses the pickled structure from the reader which contains `battle_results.dat`.
+    ///
+    /// It can be used either on the `battle_results.dat` for a replay archive,
+    /// or directly on `**/DAVAProject/battle_results/*/*_full.dat`.
     pub fn from_reader(reader: impl Read) -> Result<Self> {
         serde_pickle::from_reader(reader, Default::default()).map_err(Error::UnpickleFailed)
     }
