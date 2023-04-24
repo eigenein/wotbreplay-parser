@@ -35,17 +35,13 @@ impl BattleResultsDat {
     pub fn from_reader(reader: impl Read) -> Result<Self> {
         serde_pickle::from_reader(reader, Default::default()).map_err(Error::UnpickleFailed)
     }
-
-    /// Decodes the battle results from the internal buffer.
-    pub fn decode_battle_results(&self) -> Result<BattleResults> {
-        BattleResults::decode(self.buffer.as_ref()).map_err(Error::DecodeFailed)
-    }
 }
 
 impl TryInto<BattleResults> for BattleResultsDat {
     type Error = Error;
 
+    /// Decodes the battle results from the internal buffer.
     fn try_into(self) -> Result<BattleResults> {
-        self.decode_battle_results()
+        BattleResults::decode(self.buffer.as_ref()).map_err(Error::DecodeFailed)
     }
 }

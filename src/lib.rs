@@ -17,6 +17,9 @@ pub mod prelude;
 mod replay;
 mod result;
 
+pub use self::error::Error;
+pub use self::result::Result;
+
 #[cfg(doctest)]
 mod test_readme {
     macro_rules! external_doc_test {

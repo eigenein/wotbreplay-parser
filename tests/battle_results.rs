@@ -8,7 +8,7 @@ fn player_results_ok() -> Result<()> {
     let battle_results_dat = Replay::open(File::open("tests/replays/player_results.wotbreplay")?)?
         .read_battle_results_dat()?;
     assert_eq!(battle_results_dat.arena_unique_id, 1661909200500084);
-    let battle_results = battle_results_dat.decode_battle_results()?;
+    let battle_results: BattleResults = battle_results_dat.try_into()?;
 
     let snak_the_ripper_info = &battle_results.player_results[3].info;
     assert_eq!(snak_the_ripper_info.base_xp, 929);
