@@ -14,6 +14,7 @@ pub enum Error {
     #[error("failed to un-pickle")]
     UnpickleFailed(#[source] serde_pickle::Error),
 
+    #[cfg(feature = "meta")]
     #[error("failed to decode JSON")]
     JsonDecodeFailed(#[source] serde_json::Error),
 }

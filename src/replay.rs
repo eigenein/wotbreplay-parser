@@ -3,7 +3,9 @@ use std::io::{Read, Seek};
 use zip::ZipArchive;
 
 use crate::error::Error;
-use crate::models::{BattleResults, BattleResultsDat, Meta};
+#[cfg(feature = "meta")]
+use crate::models::Meta;
+use crate::models::{BattleResults, BattleResultsDat};
 use crate::result::Result;
 
 /// Opened (but not yet parsed) replay.
@@ -31,6 +33,7 @@ impl<R: Read + Seek> Replay<R> {
         BattleResultsDat::from_reader(pickled_battle_results)
     }
 
+    #[cfg(feature = "meta")]
     pub fn read_meta(&mut self) -> Result<Meta> {
         Meta::from_reader(
             self.0

@@ -1,3 +1,5 @@
+#![cfg(feature = "meta")]
+
 use std::fs::File;
 
 use anyhow::Result;

@@ -1,3 +1,5 @@
+#![cfg(feature = "meta")]
+
 use std::io::Read;
 
 use serde::Deserialize;

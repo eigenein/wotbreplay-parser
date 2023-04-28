@@ -15,12 +15,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout the repository
+      - name: 📥 Checkout the repository
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
-      - name: Set the versions
+      - name: 🪄 Set the versions
         run: |
           sed -i -e 's/version = "0\.0\.0"/version = "${{ github.ref_name }}"/g' Cargo.toml
       - name: Rustup
@@ -29,13 +29,13 @@ jobs:
           profile: minimal
           toolchain: stable
 
-      - name: Build the changelog
+      - name: 📝 Build the changelog
         id: changelog
         uses: Bullrich/generate-release-changelog@master
         env:
           REPO: ${{ github.repository }}
 
-      - name: Update the release
+      - name: 🪄 Update the release
         uses: tubone24/update_release@v1.3.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -43,7 +43,7 @@ jobs:
           release_name: ${{ github.ref_name }}
           body: ${{ steps.changelog.outputs.changelog }}
 
-      - name: Publish the crates
+      - name: 📤 Publish the crates
         run: |
           cargo publish --allow-dirty
         env:
