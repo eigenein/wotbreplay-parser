@@ -14,7 +14,8 @@ World of Tanks Blitz replay parser in Rust.
 use std::fs::File;
 
 use anyhow::Result;
-use wotbreplay_parser::prelude::*;
+use wotbreplay_parser::models::battle_results::TeamNumber;
+use wotbreplay_parser::replay::Replay;
 
 fn main() -> Result<()> {
     let battle_results = Replay::open(File::open("tests/replays/battle_results.wotbreplay")?)?
