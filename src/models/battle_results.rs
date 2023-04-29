@@ -2,7 +2,6 @@ use prost::bytes::Buf;
 use prost::Message;
 use serde::Serialize;
 
-use crate::error::Error;
 use crate::result::Result;
 
 impl BattleResults {
@@ -10,7 +9,7 @@ impl BattleResults {
     ///
     /// Note, that this does NOT parse `battle_results.dat` itself, but the un-pickled tuple element.
     pub fn from_buffer(buffer: impl Buf) -> Result<Self> {
-        Self::decode(buffer).map_err(Error::DecodeFailed)
+        Ok(Self::decode(buffer)?)
     }
 }
 
@@ -24,7 +23,7 @@ pub struct BattleResults {
     pub timestamp: i64,
 
     #[prost(enumeration = "TeamNumber", tag = "3")]
-    pub winning_team: i32,
+    pub winner_team_number: i32,
 
     /// Replay's author results.
     #[prost(message, required, tag = "8")]

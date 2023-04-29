@@ -2,19 +2,25 @@ use thiserror::Error;
 
 #[derive(Error, Debug)]
 pub enum Error {
-    #[error("failed to open the replay as a ZIP-archive")]
-    OpenArchiveFailed(#[source] zip::result::ZipError),
+    #[error("ZIP error")]
+    ZipError(#[from] zip::result::ZipError),
 
-    #[error("failed to open the entry in the replay archive")]
-    OpenEntryFailed(#[source] zip::result::ZipError),
+    #[error("Protocol Buffers error")]
+    DecodeFailed(#[from] prost::DecodeError),
 
-    #[error("failed to decode the Protocol Buffers encoded data")]
-    DecodeFailed(#[source] prost::DecodeError),
+    #[error("Pickle error")]
+    UnpickleFailed(#[from] serde_pickle::Error),
 
-    #[error("failed to un-pickle")]
-    UnpickleFailed(#[source] serde_pickle::Error),
+    #[error("I/O error")]
+    IoError(#[from] std::io::Error),
+
+    #[error("UTF-8 error")]
+    StringDecodeError(#[from] std::string::FromUtf8Error),
 
     #[cfg(feature = "meta")]
-    #[error("failed to decode JSON")]
-    JsonDecodeFailed(#[source] serde_json::Error),
+    #[error("JSON error")]
+    JsonDecodeFailed(#[from] serde_json::Error),
+
+    #[error("invalid magic: {0:#X}, expected: {1:#X}")]
+    InvalidMagic(u32, u32),
 }

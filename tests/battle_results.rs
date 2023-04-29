@@ -10,6 +10,9 @@ fn player_results_ok() -> Result<()> {
     assert_eq!(battle_results_dat.arena_unique_id, 1661909200500084);
     let battle_results: BattleResults = battle_results_dat.try_into()?;
 
+    assert_eq!(battle_results.winner_team_number, 2);
+    assert_eq!(battle_results.author.team_number, 2);
+
     let snak_the_ripper_info = &battle_results.player_results[3].info;
     assert_eq!(snak_the_ripper_info.base_xp, 929);
     assert_eq!(snak_the_ripper_info.damage_dealt, 2584);
@@ -104,16 +107,6 @@ fn victory_points_ok() -> Result<()> {
 
     assert_eq!(battle_results.player_results[5].info.victory_points_earned, 280);
     assert_eq!(battle_results.player_results[5].info.victory_points_seized, 0);
-
-    Ok(())
-}
-
-#[test]
-fn winning_team_ok() -> Result<()> {
-    let battle_results = Replay::open(File::open("tests/replays/winning_team.wotbreplay")?)?
-        .read_battle_results()?;
-
-    assert_eq!(battle_results.winning_team(), TeamNumber::One);
 
     Ok(())
 }

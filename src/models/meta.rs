@@ -4,7 +4,6 @@ use std::io::Read;
 
 use serde::Deserialize;
 
-use crate::error::Error;
 use crate::result::Result;
 
 /// The model for `meta.json`.
@@ -25,6 +24,6 @@ pub struct Meta {
 
 impl Meta {
     pub fn from_reader(reader: impl Read) -> Result<Self> {
-        serde_json::from_reader(reader).map_err(Error::JsonDecodeFailed)
+        Ok(serde_json::from_reader(reader)?)
     }
 }

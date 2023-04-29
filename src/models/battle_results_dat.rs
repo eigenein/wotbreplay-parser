@@ -33,7 +33,7 @@ impl BattleResultsDat {
     /// It can be used either on the `battle_results.dat` for a replay archive,
     /// or directly on `**/DAVAProject/battle_results/*/*_full.dat`.
     pub fn from_reader(reader: impl Read) -> Result<Self> {
-        serde_pickle::from_reader(reader, Default::default()).map_err(Error::UnpickleFailed)
+        Ok(serde_pickle::from_reader(reader, Default::default())?)
     }
 }
 
@@ -42,6 +42,6 @@ impl TryInto<BattleResults> for BattleResultsDat {
 
     /// Decodes the battle results from the internal buffer.
     fn try_into(self) -> Result<BattleResults> {
-        BattleResults::decode(self.buffer.as_ref()).map_err(Error::DecodeFailed)
+        Ok(BattleResults::decode(self.buffer.as_ref())?)
     }
 }
