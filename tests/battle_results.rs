@@ -12,7 +12,13 @@ fn player_results_ok() -> Result<()> {
     let battle_results: BattleResults = battle_results_dat.try_into()?;
 
     assert_eq!(battle_results.winner_team_number, 2);
+
     assert_eq!(battle_results.author.team_number, 2);
+    assert_eq!(battle_results.author.credits_earned, 59518);
+    assert_eq!(battle_results.author.combat_xp, 5255);
+    assert_eq!(battle_results.author.damage_dealt, 1438);
+    assert_eq!(battle_results.author.account_id, 594778041);
+    assert_eq!(battle_results.free_xp, 260);
 
     let snak_the_ripper_info = &battle_results.player_results[3].info;
     assert_eq!(snak_the_ripper_info.base_xp, 929);
@@ -108,20 +114,6 @@ fn victory_points_ok() -> Result<()> {
 
     assert_eq!(battle_results.player_results[5].info.victory_points_earned, 280);
     assert_eq!(battle_results.player_results[5].info.victory_points_seized, 0);
-
-    Ok(())
-}
-
-#[test]
-fn author_results_ok() -> Result<()> {
-    let battle_results = Replay::open(File::open("tests/replays/author_results.wotbreplay")?)?
-        .read_battle_results()?;
-
-    assert_eq!(battle_results.author.credits_earned, 53623);
-    assert_eq!(battle_results.author.combat_xp, 2370);
-    assert_eq!(battle_results.author.damage_dealt, 1738);
-    assert_eq!(battle_results.author.account_id, 594778041);
-    assert_eq!(battle_results.free_xp, 116);
 
     Ok(())
 }

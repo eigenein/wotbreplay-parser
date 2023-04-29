@@ -11,7 +11,7 @@ use crate::result::Result;
 #[serde_as]
 #[derive(Debug, Serialize)]
 pub enum Payload {
-    ReplayHeader(ReplayHeader),
+    ReplayHeader(Box<ReplayHeader>),
     EntityMethod(EntityMethod),
 
     /// Default payload when type is not known.
@@ -40,12 +40,12 @@ impl Payload {
                     assert_magic(reader.read_u8()?, 0x00)?;
                     read_pickled(&mut reader, pickled_length as usize)?
                 };
-                Self::ReplayHeader(ReplayHeader {
+                Self::ReplayHeader(Box::new(ReplayHeader {
                     summary,
                     author_nickname,
                     arena_unique_id,
                     arena_type_id,
-                })
+                }))
             }
 
             8 => Self::EntityMethod(EntityMethod::new(payload)?),

@@ -18,20 +18,20 @@ use wotbreplay_parser::models::battle_results::TeamNumber;
 use wotbreplay_parser::replay::Replay;
 
 fn main() -> Result<()> {
-    let battle_results = Replay::open(File::open("tests/replays/battle_results.wotbreplay")?)?
+    let battle_results = Replay::open(File::open("tests/replays/player_results.wotbreplay")?)?
         .read_battle_results()?;
 
-    assert_eq!(battle_results.timestamp, 1670018359);
+    assert_eq!(battle_results.timestamp, 1670083956);
     assert_eq!(battle_results.players.len(), 14);
 
-    assert_eq!(battle_results.players[0].account_id, 520886428);
-    assert_eq!(battle_results.players[0].info.nickname, "77mmmr");
-    assert_eq!(battle_results.players[0].info.team(), TeamNumber::Two);
-    assert_eq!(battle_results.players[0].info.platoon_id, None);
+    assert_eq!(battle_results.players[0].account_id, 595693744);
+    assert_eq!(battle_results.players[0].info.nickname, "yuranhik_hustriy26");
+    assert_eq!(battle_results.players[0].info.team(), TeamNumber::One);
+    assert_eq!(battle_results.players[0].info.platoon_id, Some(545104609));
 
     assert_eq!(battle_results.players[1].info.nickname, "SNAK_THE_RIPPER");
-    assert_eq!(battle_results.players[1].info.team(), TeamNumber::One);
-    assert_eq!(battle_results.players[1].info.platoon_id, Some(547466834));
+    assert_eq!(battle_results.players[1].info.team(), TeamNumber::Two);
+    assert_eq!(battle_results.players[1].info.platoon_id, Some(273692628));
 
     Ok(())
 }

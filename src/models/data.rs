@@ -52,7 +52,7 @@ impl Data {
             let Some(packet) = Packet::from_reader(&mut reader)? else { break };
             match packet.payload {
                 Payload::ReplayHeader(header) => {
-                    this.replay_header = Some(header);
+                    this.replay_header = Some(*header);
                 }
                 _ => {
                     this.other_packets.push(packet);
