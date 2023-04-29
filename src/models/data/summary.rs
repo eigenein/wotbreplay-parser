@@ -23,7 +23,7 @@ pub struct Summary {
     pub camouflage_slot: u8,
 
     #[serde(rename(deserialize = "avgMmr"))]
-    pub average_mmr: Vec<f64>,
+    pub average_mmr: Vec<Option<f64>>,
 
     #[serde(rename(deserialize = "playerWaitTimes"))]
     pub player_wait_times: HashMap<u32, f64>,

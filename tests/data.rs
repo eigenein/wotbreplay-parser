@@ -22,7 +22,7 @@ fn data_ok() -> Result<()> {
     assert!(header.summary.is_mouse_enabled);
     assert_eq!(header.summary.matchmaker_type, 2);
     assert_eq!(header.summary.camouflage_slot, 1);
-    assert_eq!(header.summary.average_mmr, [59.29457753400008, 99.34182121604681]);
+    assert_eq!(header.summary.average_mmr, [Some(59.29457753400008), Some(99.34182121604681)]);
     assert_eq!(
         header.summary.account_database_ids,
         [
