@@ -3,7 +3,7 @@
 use std::fs::File;
 
 use anyhow::Result;
-use wotbreplay_parser::prelude::*;
+use wotbreplay_parser::replay::Replay;
 
 #[test]
 fn meta_ok() -> Result<()> {

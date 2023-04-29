@@ -23,4 +23,7 @@ pub enum Error {
 
     #[error("invalid magic: {0:#X}, expected: {1:#X}")]
     InvalidMagic(u32, u32),
+
+    #[error("failed to read a packet length, got {0} bytes")]
+    PacketLengthError(usize),
 }

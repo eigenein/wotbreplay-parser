@@ -2,9 +2,11 @@ use std::io::{Read, Seek};
 
 use zip::ZipArchive;
 
+use crate::models::battle_results::BattleResults;
+use crate::models::battle_results_dat::BattleResultsDat;
+use crate::models::data::Data;
 #[cfg(feature = "meta")]
-use crate::models::Meta;
-use crate::models::{BattleResults, BattleResultsDat, Data};
+use crate::models::meta::Meta;
 use crate::result::Result;
 
 /// Opened (but not yet parsed) replay.

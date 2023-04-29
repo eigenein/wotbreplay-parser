@@ -1,121 +1,83 @@
 //! `data.wotreplay` models.
 
-use std::collections::HashMap;
+pub mod entity_method;
+pub mod packet;
+pub mod payload;
+pub mod replay_header;
+pub mod summary;
+
 use std::io::Read;
 
 use byteorder::{LittleEndian, ReadBytesExt};
 use serde::de::DeserializeOwned;
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 
+pub use self::entity_method::*;
+pub use self::summary::*;
+use crate::models::data::packet::Packet;
+use crate::models::data::payload::Payload;
+use crate::models::data::replay_header::ReplayHeader;
 use crate::result::Result;
 use crate::Error;
 
 /// `data.wotreplay` root structure.
 #[derive(Debug, Serialize)]
 pub struct Data {
+    /// For example: `9.8.5_apple`.
     pub client_version: String,
-    pub author_nickname: String,
-    pub arena_unique_id: u64,
-    pub arena_type_id: u32,
-    pub summary: Summary,
-}
 
-#[derive(Debug, Serialize, Deserialize)]
-pub struct Summary {
-    #[serde(rename = "playersBattleCategoriesIds")]
-    pub players_battle_categories_ids: HashMap<u32, (u8, u32)>,
+    pub replay_header: Option<ReplayHeader>,
 
-    #[serde(rename = "battleLevel")]
-    pub battle_level: u8,
-
-    #[serde(rename = "battleCategoryId")]
-    pub battle_category_id: u8,
-
-    #[serde(rename = "mouseEnabled")]
-    pub is_mouse_enabled: bool,
-
-    #[serde(rename = "mmType")]
-    pub matchmaker_type: u8,
-
-    #[serde(rename = "camouflageSlot")]
-    pub camouflage_slot: u8,
-
-    #[serde(rename = "avgMmr")]
-    pub average_mmr: Vec<f64>,
+    pub other_packets: Vec<Packet>,
 }
 
 impl Data {
     pub fn from_reader(mut reader: impl Read) -> Result<Self> {
-        Self::assert_magic(reader.read_u32::<LittleEndian>()?, 0x12345678)?;
-        reader.read_u64::<LittleEndian>()?; // TODO
-        read_bytes(&mut reader)?; // TODO
-        let client_version = read_string(&mut reader)?;
-        reader.read_exact(&mut [0; 49])?; // TODO
-        let author_nickname = read_string(&mut reader)?;
-        let arena_unique_id = reader.read_u64::<LittleEndian>()?;
-        let arena_type_id = reader.read_u32::<LittleEndian>()?;
-        let summary = {
-            Self::assert_magic(reader.read_u8()?, 0xFF)?;
-            let pickled_length = reader.read_u16::<LittleEndian>()?;
-            Self::assert_magic(reader.read_u8()?, 0x00)?;
-            read_pickled(&mut reader, pickled_length as usize)?
-        };
+        assert_magic(reader.read_u32::<LittleEndian>()?, 0x12345678)?;
 
-        let this = Self {
-            client_version,
-            author_nickname,
-            arena_unique_id,
-            arena_type_id,
-            summary,
-        };
+        // No idea what it is:
+        reader.read_u64::<LittleEndian>()?;
+
+        // Some sort of client hash, e.g.: `6CF2A9EFA5C52D6F6CE43A6D4A699C05`:
+        read_bytes(&mut reader)?;
+
+        let client_version = read_string(&mut reader)?;
+
+        // Some extra byte, no idea:
+        reader.read_u8()?;
+
+        let mut this = Self::new(client_version);
+
+        loop {
+            let Some(packet) = Packet::from_reader(&mut reader)? else { break };
+            match packet.payload {
+                Payload::ReplayHeader(header) => {
+                    this.replay_header = Some(header);
+                }
+                _ => {
+                    this.other_packets.push(packet);
+                }
+            }
+        }
+
         Ok(this)
     }
 
-    #[inline]
-    fn assert_magic<T: Into<u32> + PartialEq>(actual: T, expected: T) -> Result {
-        if actual == expected {
-            Ok(())
-        } else {
-            Err(Error::InvalidMagic(actual.into(), expected.into()))
+    pub const fn new(client_version: String) -> Self {
+        Self {
+            client_version,
+            replay_header: None,
+            other_packets: Vec::new(),
         }
     }
 }
 
-#[derive(Debug)]
-struct Packet {
-    clock: f32,
-    payload: Payload,
-}
-
-impl Packet {
-    fn from_reader(reader: &mut impl Read) -> Result<Self> {
-        let length = reader.read_u32::<LittleEndian>()?;
-        let type_ = reader.read_u32::<LittleEndian>()?;
-        let clock = reader.read_f32::<LittleEndian>()?;
-        let payload = Payload::from_reader(reader, type_, length)?;
-        let this = Self { clock, payload };
-        Ok(this)
-    }
-}
-
-#[derive(Debug)]
-pub enum Payload {
-    EntityProperty,
-    EntityMethod,
-    Other,
-}
-
-impl Payload {
-    fn from_reader(reader: &mut impl Read, type_: u32, length: u32) -> Result<Self> {
-        let this = match type_ {
-            _ => {
-                let mut buffer = Vec::new();
-                buffer.resize(length as usize, 0);
-                reader.read_exact(&mut buffer)?;
-                Self::Other
-            }
-        };
-        Ok(this)
+#[inline]
+fn assert_magic<T: Into<u32> + PartialEq>(actual: T, expected: T) -> Result {
+    if actual == expected {
+        Ok(())
+    } else {
+        Err(Error::InvalidMagic(actual.into(), expected.into()))
     }
 }
 

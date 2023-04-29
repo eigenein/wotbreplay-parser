@@ -15,12 +15,14 @@ default = []
 meta = ["dep:serde_json"]
 
 [dependencies]
+bytes = "1.4.0"
 byteorder = "1.4.3"
 prost = "0.11.3"
 serde = { version = "1.0.148", features = ["derive"] }
 serde_bytes = "0.11.7"
 serde-pickle = "1.1.1"
 serde_json = { version = "1.0.96", optional = true }
+serde_with = { version = "2.3.3", features = ["hex"] }
 thiserror = "1.0.37"
 zip = { version = "0.6.3", default-features = false, features = ["deflate"] }
 

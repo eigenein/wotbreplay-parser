@@ -12,9 +12,8 @@
 )]
 
 mod error;
-mod models;
-pub mod prelude;
-mod replay;
+pub mod models;
+pub mod replay;
 mod result;
 
 pub use self::error::Error;

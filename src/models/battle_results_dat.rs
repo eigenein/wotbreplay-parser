@@ -5,7 +5,7 @@ use serde::Deserialize;
 use serde_bytes::ByteBuf;
 
 use crate::error::Error;
-use crate::models::BattleResults;
+use crate::models::battle_results::BattleResults;
 use crate::result::Result;
 
 /// Represents un-pickled `battle_results.dat`.
