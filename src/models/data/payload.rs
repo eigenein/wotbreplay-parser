@@ -15,7 +15,13 @@ pub enum Payload {
     EntityMethod(EntityMethod),
 
     /// Default payload when type is not known.
-    Unknown(#[serde_as(as = "serde_with::hex::Hex")] Vec<u8>),
+    Unknown {
+        type_: u32,
+
+        /// Whole packet payload.
+        #[serde_as(as = "serde_with::hex::Hex")]
+        raw: Vec<u8>,
+    },
 }
 
 impl Payload {
@@ -44,7 +50,10 @@ impl Payload {
 
             8 => Self::EntityMethod(EntityMethod::new(payload)?),
 
-            _ => Self::Unknown(payload),
+            _ => Self::Unknown {
+                raw: payload,
+                type_,
+            },
         };
         Ok(this)
     }

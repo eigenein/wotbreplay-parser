@@ -14,6 +14,7 @@ pub enum EntityMethod {
     Unknown {
         sub_type: u32,
 
+        /// Whole packet payload (including the sub-type).
         #[serde_as(as = "serde_with::hex::Hex")]
         payload: Vec<u8>,
     },
