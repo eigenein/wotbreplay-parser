@@ -8,7 +8,7 @@ use crate::result::Result;
 #[derive(Debug, Serialize)]
 pub enum EntityMethod {
     /// TODO: team composition.
-    Subtype2F,
+    Subtype2F(#[serde_as(as = "serde_with::hex::Hex")] Vec<u8>),
 
     /// Default variant when subtype is not known.
     Unknown {
@@ -28,7 +28,7 @@ impl EntityMethod {
         let sub_type = reader.read_u32::<LittleEndian>()?;
 
         let this = match sub_type {
-            0x2F => Self::Subtype2F,
+            0x2F => Self::Subtype2F(payload),
             _ => Self::Unknown { sub_type, payload },
         };
         Ok(this)
