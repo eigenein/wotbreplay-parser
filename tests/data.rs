@@ -1,11 +1,12 @@
 use std::fs::File;
 
 use anyhow::Result;
+use wotbreplay_parser::models::data::entity_method::EntityMethod;
 use wotbreplay_parser::models::data::payload::Payload;
 use wotbreplay_parser::replay::Replay;
 
 #[test]
-fn data_ok() -> Result<()> {
+fn parse_ok() -> Result<()> {
     let mut replay = Replay::open(File::open(
         "tests/replays/20230429_0126__helaas_pindakaas_A140_ASTRON_REX_105_16114615898101270.wotbreplay",
     )?)?;
@@ -13,6 +14,16 @@ fn data_ok() -> Result<()> {
 
     assert_eq!(data.client_version, "9.8.5_apple");
     assert_eq!(data.packets.len(), 60139);
+
+    Ok(())
+}
+
+#[test]
+fn type0_ok() -> Result<()> {
+    let mut replay = Replay::open(File::open(
+        "tests/replays/20230429_0126__helaas_pindakaas_A140_ASTRON_REX_105_16114615898101270.wotbreplay",
+    )?)?;
+    let data = replay.read_data()?;
 
     let (author_nickname, arena_unique_id, arena_type_id, type_0) = data
         .packets
@@ -48,6 +59,35 @@ fn data_ok() -> Result<()> {
             526927603, 594778041, 505587490, 597422303, 531923111, 587617355
         ]
     );
+
+    Ok(())
+}
+
+#[test]
+fn subtype_2f_players_ok() -> Result<()> {
+    let mut replay = Replay::open(File::open(
+        "tests/replays/20230429_0126__helaas_pindakaas_A140_ASTRON_REX_105_16114615898101270.wotbreplay",
+    )?)?;
+    let data = replay.read_data()?;
+
+    let players = data
+        .packets
+        .iter()
+        .filter_map(|packet| match &packet.payload {
+            Payload::EntityMethod(EntityMethod::Subtype2F { sub_type_2f, .. }) => {
+                sub_type_2f.players.as_ref()
+            }
+            _ => None,
+        })
+        .next()
+        .unwrap();
+
+    assert_eq!(players.players.len(), 14);
+    assert_eq!(players.players[1].team_number, 1);
+    assert_eq!(players.players[1].nickname, "Igrok_WoT_blitz");
+    assert_eq!(players.players[1].account_id, 597583401);
+    assert_eq!(players.players[1].platoon_number, None);
+    assert_eq!(players.players[1].clan_tag, Some("F_ANG".to_string()));
 
     Ok(())
 }

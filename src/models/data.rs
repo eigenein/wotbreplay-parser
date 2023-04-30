@@ -33,7 +33,7 @@ impl Data {
         reader.read_u64::<LittleEndian>()?;
 
         // Some sort of client hash, e.g.: `6CF2A9EFA5C52D6F6CE43A6D4A699C05`:
-        read_bytes(&mut reader)?;
+        read_length_delimited(&mut reader)?;
 
         let client_version = read_string(&mut reader)?;
 
@@ -59,7 +59,7 @@ fn assert_magic<T: Into<u32> + PartialEq>(actual: T, expected: T) -> Result {
 }
 
 #[inline]
-fn read_bytes(reader: &mut impl Read) -> Result<Vec<u8>> {
+fn read_length_delimited(reader: &mut impl Read) -> Result<Vec<u8>> {
     let length = reader.read_u8()? as usize;
     let mut buffer = Vec::new();
     buffer.resize(length, 0);
@@ -69,7 +69,7 @@ fn read_bytes(reader: &mut impl Read) -> Result<Vec<u8>> {
 
 #[inline]
 fn read_string(reader: &mut impl Read) -> Result<String> {
-    Ok(String::from_utf8(read_bytes(reader)?)?)
+    Ok(String::from_utf8(read_length_delimited(reader)?)?)
 }
 
 #[inline]
@@ -78,4 +78,20 @@ fn read_pickled<T: DeserializeOwned>(reader: &mut impl Read, length: usize) -> R
     buffer.resize(length, 0);
     reader.read_exact(&mut buffer)?;
     Ok(serde_pickle::from_slice(&buffer, Default::default())?)
+}
+
+/// Read 2-byte length surrounded by the magical `0xFF` and `0x00`,
+/// unless it's a simple 1-byte length.
+///
+/// P.S. Okay, Wargaming, I've no idea what you smoke, but I want some!
+#[inline]
+fn read_quirky_length(reader: &mut impl Read) -> Result<usize> {
+    match reader.read_u8()? {
+        0xFF => {
+            let length = reader.read_u16::<LittleEndian>()?;
+            assert_magic(reader.read_u8()?, 0x00)?;
+            Ok(length as usize)
+        }
+        length => Ok(length as usize),
+    }
 }

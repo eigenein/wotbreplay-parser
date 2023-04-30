@@ -6,7 +6,7 @@ use serde_with::serde_as;
 
 use crate::models::data::entity_method::EntityMethod;
 use crate::models::data::type_0::Type0;
-use crate::models::data::{assert_magic, read_pickled, read_string};
+use crate::models::data::{read_pickled, read_quirky_length, read_string};
 use crate::result::Result;
 
 #[serde_as]
@@ -43,10 +43,8 @@ impl Payload {
                 let arena_unique_id = reader.read_u64::<LittleEndian>()?;
                 let arena_type_id = reader.read_u32::<LittleEndian>()?;
                 let type_0 = {
-                    assert_magic(reader.read_u8()?, 0xFF)?;
-                    let pickled_length = reader.read_u16::<LittleEndian>()?;
-                    assert_magic(reader.read_u8()?, 0x00)?;
-                    read_pickled(&mut reader, pickled_length as usize)?
+                    let pickled_length = read_quirky_length(&mut reader)?;
+                    read_pickled(&mut reader, pickled_length)?
                 };
                 Self::Type0 {
                     type_0,
