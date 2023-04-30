@@ -3,8 +3,8 @@
 pub mod entity_method;
 pub mod packet;
 pub mod payload;
-pub mod replay_header;
-pub mod summary;
+pub mod subtype_2f;
+pub mod type_0;
 
 use std::io::Read;
 
@@ -12,11 +12,7 @@ use byteorder::{LittleEndian, ReadBytesExt};
 use serde::de::DeserializeOwned;
 use serde::Serialize;
 
-pub use self::entity_method::*;
-pub use self::summary::*;
 use crate::models::data::packet::Packet;
-use crate::models::data::payload::Payload;
-use crate::models::data::replay_header::ReplayHeader;
 use crate::result::Result;
 use crate::Error;
 
@@ -26,9 +22,7 @@ pub struct Data {
     /// For example: `9.8.5_apple`.
     pub client_version: String,
 
-    pub replay_header: Option<ReplayHeader>,
-
-    pub other_packets: Vec<Packet>,
+    pub packets: Vec<Packet>,
 }
 
 impl Data {
@@ -46,29 +40,12 @@ impl Data {
         // Some extra byte, no idea:
         reader.read_u8()?;
 
-        let mut this = Self::new(client_version);
-
-        loop {
-            let Some(packet) = Packet::from_reader(&mut reader)? else { break };
-            match packet.payload {
-                Payload::ReplayHeader(header) => {
-                    this.replay_header = Some(*header);
-                }
-                _ => {
-                    this.other_packets.push(packet);
-                }
-            }
+        let mut packets = Vec::new();
+        while let Some(packet) = Packet::from_reader(&mut reader)? {
+            packets.push(packet);
         }
 
-        Ok(this)
-    }
-
-    pub const fn new(client_version: String) -> Self {
-        Self {
-            client_version,
-            replay_header: None,
-            other_packets: Vec::new(),
-        }
+        Ok(Self { client_version, packets })
     }
 }
 
