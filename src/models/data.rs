@@ -3,8 +3,8 @@
 pub mod entity_method;
 pub mod packet;
 pub mod payload;
-pub mod subtype_2f;
 pub mod type_0;
+pub mod update_arena;
 
 use std::io::Read;
 

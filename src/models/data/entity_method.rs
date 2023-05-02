@@ -5,7 +5,7 @@ use serde::Serialize;
 use serde_with::serde_as;
 
 use crate::models::data::read_quirky_length;
-use crate::models::data::subtype_2f::Subtype2F;
+use crate::models::data::update_arena::UpdateArena;
 use crate::result::Result;
 
 #[serde_as]
@@ -13,7 +13,7 @@ use crate::result::Result;
 pub enum EntityMethod {
     Subtype2F {
         field_number: u64,
-        sub_type_2f: Subtype2F,
+        sub_type_2f: UpdateArena,
 
         /// Original payload for investigation.
         #[serde_as(as = "serde_with::hex::Hex")]
@@ -45,7 +45,7 @@ impl EntityMethod {
                 let message_length = read_quirky_length(&mut reader)?;
                 Self::Subtype2F {
                     field_number,
-                    sub_type_2f: Subtype2F::decode(&reader[..message_length])?,
+                    sub_type_2f: UpdateArena::decode(&reader[..message_length])?,
                     payload,
                 }
             }
