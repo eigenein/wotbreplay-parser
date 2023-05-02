@@ -1,5 +1,5 @@
 use prost::bytes::Buf;
-use prost::Message;
+use prost::{Enumeration, Message};
 use serde::Serialize;
 
 use crate::result::Result;
@@ -22,7 +22,7 @@ pub struct BattleResults {
     #[prost(int64, tag = "2")]
     pub timestamp: i64,
 
-    #[prost(enumeration = "TeamNumber", tag = "3")]
+    #[prost(enumeration = "WinnerTeamNumber", tag = "3")]
     pub winner_team_number: i32,
 
     /// Replay's author results.
@@ -78,11 +78,17 @@ pub struct PlayerInfo {
     pub avatar: Avatar,
 }
 
-#[derive(
-    Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, prost::Enumeration, Serialize,
-)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Enumeration, Serialize)]
 #[repr(i32)]
 pub enum TeamNumber {
+    One = 1,
+    Two = 2,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Enumeration, Serialize)]
+#[repr(i32)]
+pub enum WinnerTeamNumber {
+    Neither = 0,
     One = 1,
     Two = 2,
 }

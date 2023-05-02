@@ -117,3 +117,11 @@ fn victory_points_ok() -> Result<()> {
 
     Ok(())
 }
+
+#[test]
+fn draw_ok() -> Result<()> {
+    let battle_results = Replay::open(File::open("tests/replays/20230503_0027__helaas_pindakaas_A140_ASTRON_REX_105_2319058483532631656.wotbreplay")?)?
+        .read_battle_results()?;
+    assert_eq!(battle_results.winner_team_number, 0);
+    Ok(())
+}
