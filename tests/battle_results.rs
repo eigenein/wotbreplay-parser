@@ -11,7 +11,7 @@ fn player_results_ok() -> Result<()> {
     assert_eq!(battle_results_dat.arena_unique_id, 1661909200500084);
     let battle_results: BattleResults = battle_results_dat.try_into()?;
 
-    assert_eq!(battle_results.winner_team_number, 2);
+    assert_eq!(battle_results.winner_team_number, Some(2));
 
     assert_eq!(battle_results.author.team_number, 2);
     assert_eq!(battle_results.author.credits_earned, 59518);
@@ -122,6 +122,6 @@ fn victory_points_ok() -> Result<()> {
 fn draw_ok() -> Result<()> {
     let battle_results = Replay::open(File::open("tests/replays/20230503_0027__helaas_pindakaas_A140_ASTRON_REX_105_2319058483532631656.wotbreplay")?)?
         .read_battle_results()?;
-    assert_eq!(battle_results.winner_team_number, 0);
+    assert_eq!(battle_results.winner_team_number, None);
     Ok(())
 }

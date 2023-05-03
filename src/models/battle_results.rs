@@ -22,8 +22,8 @@ pub struct BattleResults {
     #[prost(int64, tag = "2")]
     pub timestamp: i64,
 
-    #[prost(enumeration = "WinnerTeamNumber", tag = "3")]
-    pub winner_team_number: i32,
+    #[prost(enumeration = "TeamNumber", optional, tag = "3")]
+    pub winner_team_number: Option<i32>,
 
     /// Replay's author results.
     #[prost(message, required, tag = "8")]
@@ -81,14 +81,6 @@ pub struct PlayerInfo {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Enumeration, Serialize)]
 #[repr(i32)]
 pub enum TeamNumber {
-    One = 1,
-    Two = 2,
-}
-
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Enumeration, Serialize)]
-#[repr(i32)]
-pub enum WinnerTeamNumber {
-    Neither = 0,
     One = 1,
     Two = 2,
 }
