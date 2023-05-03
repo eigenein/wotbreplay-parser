@@ -1,10 +1,9 @@
-//! `data.wotreplay` models.
+//! Models for `data.wotreplay` contents.
 
+pub mod base_player_create;
 pub mod entity_method;
 pub mod packet;
 pub mod payload;
-pub mod type_0;
-pub mod update_arena;
 
 use std::io::Read;
 

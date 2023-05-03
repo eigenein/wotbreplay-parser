@@ -2,9 +2,8 @@ use std::collections::HashMap;
 
 use serde::{Deserialize, Serialize};
 
-/// Looks like some sort of replay summary.
 #[derive(Debug, Serialize, Deserialize)]
-pub struct Type0 {
+pub struct BasePlayerCreate {
     #[serde(rename(deserialize = "playersBattleCategoriesIds"))]
     pub players_battle_categories_ids: HashMap<u32, (u8, u32)>,
 

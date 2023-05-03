@@ -4,22 +4,23 @@ use byteorder::{LittleEndian, ReadBytesExt};
 use serde::Serialize;
 use serde_with::serde_as;
 
+use crate::models::data::base_player_create::BasePlayerCreate;
 use crate::models::data::entity_method::EntityMethod;
-use crate::models::data::type_0::Type0;
 use crate::models::data::{read_pickled, read_quirky_length, read_string};
 use crate::result::Result;
 
 #[serde_as]
 #[derive(Debug, Serialize)]
 pub enum Payload {
-    /// Looks like some sort of replay summary.
-    Type0 {
+    /// Type 0.
+    BasePlayerCreate {
         author_nickname: String,
         arena_unique_id: u64,
         arena_type_id: u32,
-        type_0: Box<Type0>,
+        arguments: Box<BasePlayerCreate>,
     },
 
+    /// Type 8.
     EntityMethod(EntityMethod),
 
     /// Default payload when type is not known by the parser.
@@ -46,8 +47,8 @@ impl Payload {
                     let pickled_length = read_quirky_length(&mut reader)?;
                     read_pickled(&mut reader, pickled_length)?
                 };
-                Self::Type0 {
-                    type_0,
+                Self::BasePlayerCreate {
+                    arguments: type_0,
                     author_nickname,
                     arena_unique_id,
                     arena_type_id,

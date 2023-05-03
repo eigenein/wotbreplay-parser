@@ -4,16 +4,19 @@ use prost::Message;
 use serde::Serialize;
 use serde_with::serde_as;
 
+use self::update_arena::UpdateArena;
 use crate::models::data::read_quirky_length;
-use crate::models::data::update_arena::UpdateArena;
 use crate::result::Result;
+
+pub mod update_arena;
 
 #[serde_as]
 #[derive(Debug, Serialize)]
 pub enum EntityMethod {
-    Subtype2F {
+    /// Subtype `0x2F`.
+    UpdateArena {
         field_number: u64,
-        sub_type_2f: UpdateArena,
+        arguments: UpdateArena,
 
         /// Original payload for investigation.
         #[serde_as(as = "serde_with::hex::Hex")]
@@ -31,6 +34,7 @@ pub enum EntityMethod {
 }
 
 impl EntityMethod {
+    /// Parse the entity method payload.
     pub fn new(payload: Vec<u8>) -> Result<Self> {
         let mut reader = payload.as_slice();
 
@@ -43,9 +47,9 @@ impl EntityMethod {
 
                 let field_number = decode_varint(&mut reader)?;
                 let message_length = read_quirky_length(&mut reader)?;
-                Self::Subtype2F {
+                Self::UpdateArena {
                     field_number,
-                    sub_type_2f: UpdateArena::decode(&reader[..message_length])?,
+                    arguments: UpdateArena::decode(&reader[..message_length])?,
                     payload,
                 }
             }

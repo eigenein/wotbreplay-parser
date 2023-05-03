@@ -1,3 +1,4 @@
+//! Models for `meta.json` contents.
 #![cfg(feature = "meta")]
 
 use std::io::Read;

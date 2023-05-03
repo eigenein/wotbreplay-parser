@@ -1,7 +1,6 @@
 use prost::Message;
 use serde::Serialize;
 
-/// Subtype `0x2F`.
 #[derive(Message, Serialize)]
 pub struct UpdateArena {
     #[prost(message, tag = "1")]

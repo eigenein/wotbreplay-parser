@@ -29,11 +29,11 @@ fn type0_ok() -> Result<()> {
         .packets
         .iter()
         .filter_map(|packet| {
-            if let Payload::Type0 {
+            if let Payload::BasePlayerCreate {
                 author_nickname,
                 arena_unique_id,
                 arena_type_id,
-                type_0,
+                arguments: type_0,
             } = &packet.payload
             {
                 Some((author_nickname, arena_unique_id, arena_type_id, type_0))
@@ -74,7 +74,7 @@ fn subtype_2f_players_ok() -> Result<()> {
         .packets
         .iter()
         .filter_map(|packet| match &packet.payload {
-            Payload::EntityMethod(EntityMethod::Subtype2F { sub_type_2f, .. }) => {
+            Payload::EntityMethod(EntityMethod::UpdateArena { arguments: sub_type_2f, .. }) => {
                 sub_type_2f.players.as_ref()
             }
             _ => None,
