@@ -4,8 +4,8 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BasePlayerCreate {
-    #[serde(rename(deserialize = "playersBattleCategoriesIds"))]
-    pub players_battle_categories_ids: HashMap<u32, (u8, u32)>,
+    #[serde(default, rename(deserialize = "playersBattleCategoriesIds"))]
+    pub players_battle_categories_ids: Option<HashMap<u32, (u8, u32)>>,
 
     #[serde(rename(deserialize = "battleLevel"))]
     pub battle_level: u8,
@@ -22,17 +22,17 @@ pub struct BasePlayerCreate {
     #[serde(rename(deserialize = "camouflageSlot"))]
     pub camouflage_slot: u8,
 
-    #[serde(rename(deserialize = "avgMmr"))]
-    pub average_mmr: Vec<Option<f64>>,
+    #[serde(default, rename(deserialize = "avgMmr"))]
+    pub average_mmr: Option<Vec<Option<f64>>>,
 
-    #[serde(rename(deserialize = "playerWaitTimes"))]
-    pub player_wait_times: HashMap<u32, f64>,
+    #[serde(default, rename(deserialize = "playerWaitTimes"))]
+    pub player_wait_times: Option<HashMap<u32, f64>>,
 
     #[serde(rename(deserialize = "accountDatabaseIds"))]
     pub account_database_ids: Vec<u32>,
 
-    #[serde(rename(deserialize = "turboBattlesStats"))]
-    pub turbo_battles_statistics: TurboBattlesStatistics,
+    #[serde(default, rename(deserialize = "turboBattlesStats"))]
+    pub turbo_battles_statistics: Option<TurboBattlesStatistics>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
