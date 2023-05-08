@@ -7,7 +7,10 @@ use crate::result::Result;
 impl BattleResults {
     /// Parse battle results from the buffer.
     ///
-    /// Note, that this does NOT parse `battle_results.dat` itself, but the un-pickled tuple element.
+    /// # Note
+    ///
+    /// This does **not** parse `battle_results.dat` itself, but the un-pickled tuple element.
+    /// To parse `battle_results.dat`, use [`crate::models::battle_results_dat::BattleResultsDat`].
     pub fn from_buffer(buffer: impl Buf) -> Result<Self> {
         Ok(Self::decode(buffer)?)
     }

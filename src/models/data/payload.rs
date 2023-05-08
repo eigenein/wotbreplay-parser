@@ -9,6 +9,7 @@ use crate::models::data::entity_method::EntityMethod;
 use crate::models::data::{read_pickled, read_quirky_length, read_string};
 use crate::result::Result;
 
+/// Packet payload.
 #[serde_as]
 #[derive(Debug, Serialize)]
 pub enum Payload {
@@ -25,7 +26,7 @@ pub enum Payload {
 
     /// Default payload when type is not known by the parser.
     Unknown {
-        type_: u32,
+        packet_type: u32,
 
         /// Whole packet payload.
         #[serde_as(as = "serde_with::hex::Hex")]
@@ -34,8 +35,9 @@ pub enum Payload {
 }
 
 impl Payload {
-    pub fn new(type_: u32, payload: Vec<u8>) -> Result<Self> {
-        let this = match type_ {
+    /// Parse the packet payload.
+    pub fn new(packet_type: u32, payload: Vec<u8>) -> Result<Self> {
+        let this = match packet_type {
             0 => {
                 let mut reader = payload.as_slice();
                 reader.read_exact(&mut [0; 10])?;
@@ -57,7 +59,7 @@ impl Payload {
 
             8 => Self::EntityMethod(EntityMethod::new(payload)?),
 
-            _ => Self::Unknown { raw: payload, type_ },
+            _ => Self::Unknown { raw: payload, packet_type },
         };
         Ok(this)
     }

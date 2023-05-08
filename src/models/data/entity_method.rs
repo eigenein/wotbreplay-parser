@@ -1,3 +1,5 @@
+//! Structures for «entity method» call packets.
+
 use byteorder::{LittleEndian, ReadBytesExt};
 use prost::encoding::decode_varint;
 use prost::Message;
