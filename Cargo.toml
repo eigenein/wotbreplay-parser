@@ -28,3 +28,8 @@ zip = { version = "0.6.3", default-features = false, features = ["deflate"] }
 
 [dev-dependencies]
 anyhow = "1.0.66"
+criterion = "0.4.0"
+
+[[bench]]
+name = "data"
+harness = false

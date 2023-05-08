@@ -7,7 +7,8 @@ use wotbreplay_parser::replay::Replay;
 
 #[test]
 fn meta_ok() -> Result<()> {
-    let meta = Replay::open(File::open("replays/player_results.wotbreplay")?)?.read_meta()?;
+    let meta =
+        Replay::open(File::open("replays/20221203_player_results.wotbreplay")?)?.read_meta()?;
 
     assert_eq!(meta.player_name, "zeekrab");
     assert_eq!(meta.arena_unique_id, "1661909200500084");

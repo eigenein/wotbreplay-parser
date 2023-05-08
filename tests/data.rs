@@ -7,9 +7,8 @@ use wotbreplay_parser::replay::Replay;
 
 #[test]
 fn parse_ok() -> Result<()> {
-    let mut replay = Replay::open(File::open(
-        "replays/20230429_0126__helaas_pindakaas_A140_ASTRON_REX_105_16114615898101270.wotbreplay",
-    )?)?;
+    let mut replay =
+        Replay::open(File::open("replays/20230429_0126__helaas_pindakaas.wotbreplay")?)?;
     let data = replay.read_data()?;
 
     assert_eq!(data.client_version, "9.8.5_apple");
@@ -20,9 +19,8 @@ fn parse_ok() -> Result<()> {
 
 #[test]
 fn base_player_create_ok() -> Result<()> {
-    let mut replay = Replay::open(File::open(
-        "replays/20230429_0126__helaas_pindakaas_A140_ASTRON_REX_105_16114615898101270.wotbreplay",
-    )?)?;
+    let mut replay =
+        Replay::open(File::open("replays/20230429_0126__helaas_pindakaas.wotbreplay")?)?;
     let data = replay.read_data()?;
 
     let (author_nickname, arena_unique_id, arena_type_id, arguments) = data
@@ -68,9 +66,8 @@ fn base_player_create_ok() -> Result<()> {
 
 #[test]
 fn update_arena_ok() -> Result<()> {
-    let mut replay = Replay::open(File::open(
-        "replays/20230429_0126__helaas_pindakaas_A140_ASTRON_REX_105_16114615898101270.wotbreplay",
-    )?)?;
+    let mut replay =
+        Replay::open(File::open("replays/20230429_0126__helaas_pindakaas.wotbreplay")?)?;
     let data = replay.read_data()?;
 
     let players = data
@@ -97,7 +94,7 @@ fn update_arena_ok() -> Result<()> {
 
 #[test]
 fn training_room_ok() -> Result<()> {
-    let mut replay = Replay::open(File::open("replays/training_room.wotbreplay")?)?;
+    let mut replay = Replay::open(File::open("replays/20230503_training_room.wotbreplay")?)?;
     replay.read_data()?;
     Ok(())
 }
