@@ -8,7 +8,7 @@ use wotbreplay_parser::replay::Replay;
 #[test]
 fn parse_ok() -> Result<()> {
     let mut replay = Replay::open(File::open(
-        "tests/replays/20230429_0126__helaas_pindakaas_A140_ASTRON_REX_105_16114615898101270.wotbreplay",
+        "replays/20230429_0126__helaas_pindakaas_A140_ASTRON_REX_105_16114615898101270.wotbreplay",
     )?)?;
     let data = replay.read_data()?;
 
@@ -21,7 +21,7 @@ fn parse_ok() -> Result<()> {
 #[test]
 fn base_player_create_ok() -> Result<()> {
     let mut replay = Replay::open(File::open(
-        "tests/replays/20230429_0126__helaas_pindakaas_A140_ASTRON_REX_105_16114615898101270.wotbreplay",
+        "replays/20230429_0126__helaas_pindakaas_A140_ASTRON_REX_105_16114615898101270.wotbreplay",
     )?)?;
     let data = replay.read_data()?;
 
@@ -69,7 +69,7 @@ fn base_player_create_ok() -> Result<()> {
 #[test]
 fn update_arena_ok() -> Result<()> {
     let mut replay = Replay::open(File::open(
-        "tests/replays/20230429_0126__helaas_pindakaas_A140_ASTRON_REX_105_16114615898101270.wotbreplay",
+        "replays/20230429_0126__helaas_pindakaas_A140_ASTRON_REX_105_16114615898101270.wotbreplay",
     )?)?;
     let data = replay.read_data()?;
 
@@ -97,7 +97,7 @@ fn update_arena_ok() -> Result<()> {
 
 #[test]
 fn training_room_ok() -> Result<()> {
-    let mut replay = Replay::open(File::open("tests/replays/training_room.wotbreplay")?)?;
+    let mut replay = Replay::open(File::open("replays/training_room.wotbreplay")?)?;
     replay.read_data()?;
     Ok(())
 }

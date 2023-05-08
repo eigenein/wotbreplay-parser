@@ -6,7 +6,7 @@ use wotbreplay_parser::replay::Replay;
 
 #[test]
 fn player_results_ok() -> Result<()> {
-    let battle_results_dat = Replay::open(File::open("tests/replays/player_results.wotbreplay")?)?
+    let battle_results_dat = Replay::open(File::open("replays/player_results.wotbreplay")?)?
         .read_battle_results_dat()?;
     assert_eq!(battle_results_dat.arena_unique_id, 1661909200500084);
     let battle_results: BattleResults = battle_results_dat.try_into()?;
@@ -80,8 +80,8 @@ fn player_results_ok() -> Result<()> {
 
 #[test]
 fn player_info_ok() -> Result<()> {
-    let battle_results = Replay::open(File::open("tests/replays/player_results.wotbreplay")?)?
-        .read_battle_results()?;
+    let battle_results =
+        Replay::open(File::open("replays/player_results.wotbreplay")?)?.read_battle_results()?;
 
     assert_eq!(battle_results.players[1].info.clan_tag.as_deref(), Some("AN0NY"));
 
@@ -103,8 +103,8 @@ fn player_info_ok() -> Result<()> {
 
 #[test]
 fn victory_points_ok() -> Result<()> {
-    let battle_results = Replay::open(File::open("tests/replays/victory_points.wotbreplay")?)?
-        .read_battle_results()?;
+    let battle_results =
+        Replay::open(File::open("replays/victory_points.wotbreplay")?)?.read_battle_results()?;
 
     assert_eq!(battle_results.player_results[1].info.victory_points_seized, 40);
     assert_eq!(battle_results.player_results[1].info.victory_points_earned, 40);
@@ -120,7 +120,7 @@ fn victory_points_ok() -> Result<()> {
 
 #[test]
 fn draw_ok() -> Result<()> {
-    let battle_results = Replay::open(File::open("tests/replays/20230503_0027__helaas_pindakaas_A140_ASTRON_REX_105_2319058483532631656.wotbreplay")?)?
+    let battle_results = Replay::open(File::open("replays/20230503_0027__helaas_pindakaas_A140_ASTRON_REX_105_2319058483532631656.wotbreplay")?)?
         .read_battle_results()?;
     assert_eq!(battle_results.winner_team_number, None);
     Ok(())
