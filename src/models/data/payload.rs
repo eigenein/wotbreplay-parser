@@ -25,32 +25,27 @@ pub enum Payload {
     EntityMethod(EntityMethod),
 
     /// Default payload when type is not known by the parser.
-    Unknown {
-        packet_type: u32,
-
-        /// Whole packet payload.
-        #[serde_as(as = "serde_with::hex::Hex")]
-        raw: Vec<u8>,
-    },
+    Unknown { packet_type: u32 },
 }
 
 impl Payload {
     /// Parse the packet payload.
-    pub fn new(packet_type: u32, payload: Vec<u8>) -> Result<Self> {
+    pub fn new(packet_type: u32, payload: &[u8]) -> Result<Self> {
+        let mut payload = payload;
+
         let this = match packet_type {
             0 => {
-                let mut reader = payload.as_slice();
-                reader.read_exact(&mut [0; 10])?;
+                payload.read_exact(&mut [0; 10])?;
 
-                let author_nickname = read_string(&mut reader)?;
-                let arena_unique_id = reader.read_u64::<LittleEndian>()?;
-                let arena_type_id = reader.read_u32::<LittleEndian>()?;
-                let type_0 = {
-                    let pickled_length = read_quirky_length(&mut reader)?;
-                    read_pickled(&mut reader, pickled_length)?
+                let author_nickname = read_string(&mut payload)?;
+                let arena_unique_id = payload.read_u64::<LittleEndian>()?;
+                let arena_type_id = payload.read_u32::<LittleEndian>()?;
+                let arguments = {
+                    let pickled_length = read_quirky_length(&mut payload)?;
+                    read_pickled(&mut payload, pickled_length)?
                 };
                 Self::BasePlayerCreate {
-                    arguments: type_0,
+                    arguments,
                     author_nickname,
                     arena_unique_id,
                     arena_type_id,
@@ -59,7 +54,7 @@ impl Payload {
 
             8 => Self::EntityMethod(EntityMethod::new(payload)?),
 
-            _ => Self::Unknown { raw: payload, packet_type },
+            _ => Self::Unknown { packet_type },
         };
         Ok(this)
     }

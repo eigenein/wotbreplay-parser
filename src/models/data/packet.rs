@@ -2,14 +2,20 @@ use std::io::Read;
 
 use byteorder::{LittleEndian, ReadBytesExt};
 use serde::Serialize;
+use serde_with::serde_as;
 
 use crate::models::data::payload::Payload;
 use crate::result::Result;
 
+#[serde_as]
 #[derive(Debug, Serialize)]
 pub struct Packet {
     pub clock: f32,
     pub payload: Payload,
+
+    #[cfg(feature = "raw-payload")]
+    #[serde_as(as = "serde_with::hex::Hex")]
+    pub raw_payload: Vec<u8>,
 }
 
 impl Packet {
@@ -18,8 +24,13 @@ impl Packet {
         let type_ = reader.read_u32::<LittleEndian>()?;
         let clock = reader.read_f32::<LittleEndian>()?;
         let payload = Self::read_payload(reader, length as usize)?;
-        let payload = Payload::new(type_, payload)?;
-        let this = Self { clock, payload };
+        let this = Self {
+            clock,
+            payload: Payload::new(type_, &payload)?,
+
+            #[cfg(feature = "raw-payload")]
+            raw_payload: payload,
+        };
         Ok(Some(this))
     }
 

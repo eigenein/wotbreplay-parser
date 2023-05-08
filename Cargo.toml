@@ -12,7 +12,8 @@ categories = ["parsing"]
 
 [features]
 default = []
-meta = ["dep:serde_json"]
+meta = ["dep:serde_json"] # `meta.json` parsing
+raw-payload = [] # save raw packet payloads, enabling increases memory usage and decreases performance
 
 [dependencies]
 bytes = "1.4.0"
