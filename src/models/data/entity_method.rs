@@ -27,21 +27,21 @@ pub enum EntityMethod {
 
 impl EntityMethod {
     /// Parse the entity method payload.
-    pub fn new(payload: &[u8]) -> Result<Self> {
-        let mut payload = payload;
+    pub fn new(raw_payload: &[u8]) -> Result<Self> {
+        let mut raw_payload = raw_payload;
 
-        payload.read_u32::<LittleEndian>()?;
-        let sub_type = payload.read_u32::<LittleEndian>()?;
+        raw_payload.read_u32::<LittleEndian>()?;
+        let sub_type = raw_payload.read_u32::<LittleEndian>()?;
 
         let this = match sub_type {
             47 => {
-                let _inner_length = payload.read_u32::<LittleEndian>()?;
+                let _inner_length = raw_payload.read_u32::<LittleEndian>()?;
 
-                let field_number = decode_varint(&mut payload)?;
-                let message_length = read_quirky_length(&mut payload)?;
+                let field_number = decode_varint(&mut raw_payload)?;
+                let message_length = read_quirky_length(&mut raw_payload)?;
                 Self::UpdateArena {
                     field_number,
-                    arguments: UpdateArena::decode(&payload[..message_length])?,
+                    arguments: UpdateArena::decode(&raw_payload[..message_length])?,
                 }
             }
 

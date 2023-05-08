@@ -30,19 +30,19 @@ pub enum Payload {
 
 impl Payload {
     /// Parse the packet payload.
-    pub fn new(packet_type: u32, payload: &[u8]) -> Result<Self> {
-        let mut payload = payload;
+    pub fn new(packet_type: u32, raw_payload: &[u8]) -> Result<Self> {
+        let mut raw_payload = raw_payload;
 
         let this = match packet_type {
             0 => {
-                payload.read_exact(&mut [0; 10])?;
+                raw_payload.read_exact(&mut [0; 10])?;
 
-                let author_nickname = read_string(&mut payload)?;
-                let arena_unique_id = payload.read_u64::<LittleEndian>()?;
-                let arena_type_id = payload.read_u32::<LittleEndian>()?;
+                let author_nickname = read_string(&mut raw_payload)?;
+                let arena_unique_id = raw_payload.read_u64::<LittleEndian>()?;
+                let arena_type_id = raw_payload.read_u32::<LittleEndian>()?;
                 let arguments = {
-                    let pickled_length = read_quirky_length(&mut payload)?;
-                    read_pickled(&mut payload, pickled_length)?
+                    let pickled_length = read_quirky_length(&mut raw_payload)?;
+                    read_pickled(&mut raw_payload, pickled_length)?
                 };
                 Self::BasePlayerCreate {
                     arguments,
@@ -52,7 +52,7 @@ impl Payload {
                 }
             }
 
-            8 => Self::EntityMethod(EntityMethod::new(payload)?),
+            8 => Self::EntityMethod(EntityMethod::new(raw_payload)?),
 
             _ => Self::Unknown { packet_type },
         };
