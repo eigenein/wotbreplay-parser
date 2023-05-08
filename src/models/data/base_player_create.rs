@@ -22,8 +22,16 @@ pub struct BasePlayerCreate {
     #[serde(rename(deserialize = "camouflageSlot"))]
     pub camouflage_slot: u8,
 
+    /// Average team ratings for rating battles.
+    ///
+    /// # Contains
+    ///
+    /// - [`Some`] 2-vector, if the attribute is present in the replay. Each element represents one team:
+    ///     - [`Some`] rating, if known
+    ///     - [`None`], if the average rating is unknown (all the players are calibrating)
+    /// - [`None`], if the attribute is missing in the replay
     #[serde(default, rename(deserialize = "avgMmr"))]
-    pub average_mmr: Option<Vec<Option<f64>>>,
+    pub average_mm_ratings: Option<Vec<Option<f64>>>,
 
     #[serde(default, rename(deserialize = "playerWaitTimes"))]
     pub player_wait_times: Option<HashMap<u32, f64>>,
@@ -35,6 +43,10 @@ pub struct BasePlayerCreate {
     pub turbo_battles_statistics: Option<TurboBattlesStatistics>,
 }
 
+/// I don't know what that is:
+///
+/// - On EU, Asia, and NA the values are just constants
+/// - On Russia, the `alpha` and `beta` are different constants, and the chances actually differ for different replays
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TurboBattlesStatistics {
     #[serde(rename(deserialize = "turboBattleChance"))]

@@ -53,7 +53,10 @@ fn assert_magic<T: Into<u32> + PartialEq>(actual: T, expected: T) -> Result {
     if actual == expected {
         Ok(())
     } else {
-        Err(Error::InvalidMagic(actual.into(), expected.into()))
+        Err(Error::InvalidMagic {
+            actual: actual.into(),
+            expected: expected.into(),
+        })
     }
 }
 
@@ -82,7 +85,11 @@ fn read_pickled<T: DeserializeOwned>(reader: &mut impl Read, length: usize) -> R
 /// Read 2-byte length surrounded by the magical `0xFF` and `0x00`,
 /// unless it's a simple 1-byte length.
 ///
-/// P.S. Okay, Wargaming, I've no idea what you smoke, but I want some!
+/// # Context
+///
+/// It seems that for payloads larger than 254 bytes, Wargaming writes `00 <XX XX> FF`,
+/// where the word in the middle is the actual length of a payload, and the `00` and `FF`
+/// are magic values.
 #[inline]
 fn read_quirky_length(reader: &mut impl Read) -> Result<usize> {
     match reader.read_u8()? {

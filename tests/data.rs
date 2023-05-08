@@ -50,7 +50,7 @@ fn base_player_create_ok() -> Result<()> {
     assert_eq!(arguments.matchmaker_type, 2);
     assert_eq!(arguments.camouflage_slot, 1);
     assert_eq!(
-        arguments.average_mmr,
+        arguments.average_mm_ratings,
         Some(vec![Some(59.29457753400008), Some(99.34182121604681)])
     );
     assert_eq!(

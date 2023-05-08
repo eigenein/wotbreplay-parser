@@ -20,7 +20,7 @@ use wotbreplay_parser::replay::Replay;
 fn main() -> Result<()> {
     let battle_results = Replay::open(File::open("replays/20221203_player_results.wotbreplay")?)?.read_battle_results()?;
 
-    assert_eq!(battle_results.timestamp, 1670083956);
+    assert_eq!(battle_results.timestamp_secs, 1670083956);
     assert_eq!(battle_results.players.len(), 14);
 
     assert_eq!(battle_results.players[0].account_id, 595693744);

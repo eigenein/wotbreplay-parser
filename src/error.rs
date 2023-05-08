@@ -21,9 +21,13 @@ pub enum Error {
     #[error("JSON error")]
     JsonError(#[from] serde_json::Error),
 
-    #[error("invalid magic: {0:#X}, expected: {1:#X}")]
-    InvalidMagic(u32, u32),
+    #[error("invalid magic: {actual:#X}, expected: {expected:#X}")]
+    InvalidMagic { expected: u32, actual: u32 },
 
-    #[error("failed to read a packet length, got {0} bytes")]
-    PacketLengthError(usize),
+    #[error("failed to parse type {type_} packet's payload at replay time {clock_secs}s")]
+    PacketPayloadParsingError {
+        source: Box<Error>,
+        type_: u32,
+        clock_secs: f32,
+    },
 }

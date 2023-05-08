@@ -21,7 +21,7 @@ use crate::result::Result;
 pub struct Replay<R>(pub(crate) ZipArchive<R>);
 
 impl<R: Read + Seek> Replay<R> {
-    /// Opens a replay from the reader which contains a `*.wotbreplay`.
+    /// Open a replay from the reader which contains a `*.wotbreplay`.
     pub fn open(reader: R) -> Result<Self> {
         Ok(Self(ZipArchive::new(reader)?))
     }

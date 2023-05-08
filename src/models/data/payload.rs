@@ -29,7 +29,7 @@ pub enum Payload {
 }
 
 impl Payload {
-    /// Parse the packet payload.
+    /// Parse the raw packet payload.
     pub fn new(packet_type: u32, raw_payload: &[u8]) -> Result<Self> {
         let mut raw_payload = raw_payload;
 

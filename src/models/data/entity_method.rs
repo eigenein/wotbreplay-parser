@@ -26,7 +26,7 @@ pub enum EntityMethod {
 }
 
 impl EntityMethod {
-    /// Parse the entity method payload.
+    /// Parse the entity method raw payload.
     pub fn new(raw_payload: &[u8]) -> Result<Self> {
         let mut raw_payload = raw_payload;
 

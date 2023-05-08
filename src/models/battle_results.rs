@@ -9,7 +9,7 @@ impl BattleResults {
     ///
     /// # Note
     ///
-    /// This does **not** parse `battle_results.dat` itself, but the un-pickled tuple element.
+    /// This can **not** parse `battle_results.dat` itself, but the un-pickled tuple element.
     /// To parse `battle_results.dat`, use [`crate::models::battle_results_dat::BattleResultsDat`].
     pub fn from_buffer(buffer: impl Buf) -> Result<Self> {
         Ok(Self::decode(buffer)?)
@@ -23,7 +23,7 @@ impl BattleResults {
 pub struct BattleResults {
     /// Battle timestamp.
     #[prost(int64, tag = "2")]
-    pub timestamp: i64,
+    pub timestamp_secs: i64,
 
     #[prost(enumeration = "TeamNumber", optional, tag = "3")]
     pub winner_team_number: Option<i32>,
@@ -40,7 +40,7 @@ pub struct BattleResults {
     #[prost(message, repeated, tag = "201")]
     pub players: Vec<Player>,
 
-    /// Player's results.
+    /// Individual player's results.
     #[prost(message, repeated, tag = "301")]
     pub player_results: Vec<PlayerResults>,
 }
@@ -65,8 +65,9 @@ pub struct PlayerInfo {
     pub nickname: String,
 
     /// Some sort of platoon ID:
-    /// - contains same ID for a platoon members, or
-    /// - `None` for non-platoon players
+    ///
+    /// - contains same ID for the platoon members, or
+    /// - [`None`] for non-platoon players
     #[prost(uint32, optional, tag = "2")]
     pub platoon_id: Option<u32>,
 
@@ -165,6 +166,8 @@ pub struct PlayerResultsInfo {
     ///
     /// Note, that this is **not** the game client's displayed rating.
     /// This field matches the `mm_rating` as returned by the Wargaming.net API.
+    ///
+    /// The display rating is calculated as: `3000.0 + mm_rating * 10.0`.
     #[prost(float, optional, tag = "107")]
     pub mm_rating: Option<f32>,
 
@@ -173,7 +176,7 @@ pub struct PlayerResultsInfo {
 }
 
 impl PlayerResultsInfo {
-    /// Returns displayed rating as per the game client.
+    /// Calculate displayed rating according to the game client.
     pub fn display_rating(&self) -> Option<u32> {
         self.mm_rating
             .map(|mm_rating| (mm_rating * 10.0 + 3000.0) as u32)
