@@ -21,6 +21,15 @@ impl BattleResults {
 /// TODO: 150[0].21[0].8[0].801[0].unsigned is arena end time.
 #[derive(Message, Serialize)]
 pub struct BattleResults {
+    /// The two least-significant bytes is map ID.
+    ///
+    /// The 3rd byte is probably a game mode:
+    ///
+    /// - `0x0xxxx` is «encounter»
+    /// - `0x1xxxx` flag is «supremacy»
+    #[prost(uint32, tag = "1")]
+    pub mode_map_id: u32,
+
     /// Battle timestamp.
     #[prost(int64, tag = "2")]
     pub timestamp_secs: i64,
@@ -83,7 +92,6 @@ pub struct PlayerInfo {
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Enumeration, Serialize)]
-#[repr(i32)]
 pub enum TeamNumber {
     One = 1,
     Two = 2,

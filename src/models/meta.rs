@@ -5,6 +5,7 @@ use std::io::Read;
 
 use serde::Deserialize;
 
+use crate::models::map_id::MapId;
 use crate::result::Result;
 
 /// The model for `meta.json`.
@@ -21,6 +22,9 @@ pub struct Meta {
 
     #[serde(rename = "vehicleCompDescriptor")]
     pub tank_id: u16,
+
+    #[serde(rename = "mapId")]
+    pub map_id: MapId,
 }
 
 impl Meta {
