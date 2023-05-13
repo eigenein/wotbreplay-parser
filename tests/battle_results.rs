@@ -2,6 +2,7 @@ use std::fs::File;
 
 use anyhow::Result;
 use wotbreplay_parser::models::battle_results::BattleResults;
+use wotbreplay_parser::models::room_type::RoomType;
 use wotbreplay_parser::replay::Replay;
 
 #[test]
@@ -13,6 +14,7 @@ fn player_results_ok() -> Result<()> {
     let battle_results: BattleResults = battle_results_dat.try_into()?;
 
     assert_eq!(battle_results.winner_team_number, Some(2));
+    assert_eq!(battle_results.room_type(), RoomType::Regular);
 
     assert_eq!(battle_results.author.team_number, 2);
     assert_eq!(battle_results.author.credits_earned, 59518);
@@ -125,5 +127,15 @@ fn draw_ok() -> Result<()> {
         Replay::open(File::open("replays/20230503_0027__helaas_pindakaas.wotbreplay")?)?
             .read_battle_results()?;
     assert_eq!(battle_results.winner_team_number, None);
+    Ok(())
+}
+
+#[test]
+fn room_type_ok() -> Result<()> {
+    let battle_results = Replay::open(File::open(
+        "replays/20230512_2150__helaas_pindakaas_R159_SU_130PM_15146680594634860.wotbreplay",
+    )?)?
+    .read_battle_results()?;
+    assert_eq!(battle_results.room_type(), RoomType::MadGames);
     Ok(())
 }

@@ -2,6 +2,7 @@ use prost::bytes::Buf;
 use prost::{Enumeration, Message};
 use serde::Serialize;
 
+use crate::models::room_type::RoomType;
 use crate::result::Result;
 
 impl BattleResults {
@@ -40,6 +41,9 @@ pub struct BattleResults {
     /// Replay's author results.
     #[prost(message, required, tag = "8")]
     pub author: Author,
+
+    #[prost(enumeration = "RoomType", tag = "9")]
+    pub room_type: i32,
 
     /// Author's free XP, including premium.
     #[prost(uint32, tag = "137")]
