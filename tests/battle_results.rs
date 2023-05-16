@@ -17,8 +17,8 @@ fn player_results_ok() -> Result<()> {
     assert_eq!(battle_results.room_type(), RoomType::Regular);
 
     assert_eq!(battle_results.author.team_number, 2);
-    assert_eq!(battle_results.author.credits_earned, 59518);
-    assert_eq!(battle_results.author.combat_xp, 5255);
+    assert_eq!(battle_results.author.total_credits, 59518);
+    assert_eq!(battle_results.author.total_xp, 5255);
     assert_eq!(battle_results.author.damage_dealt, 1438);
     assert_eq!(battle_results.author.account_id, 594778041);
     assert_eq!(battle_results.free_xp, 260);

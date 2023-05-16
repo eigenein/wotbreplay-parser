@@ -197,13 +197,31 @@ impl PlayerResultsInfo {
 
 #[derive(Message, Serialize)]
 pub struct Author {
+    /// # Note
+    ///
+    /// The field is `-2` if the player is auto-destroyed by inactivity.
+    #[prost(int32, tag = "2")]
+    pub hitpoints_left: i32,
+
     /// Earned credits, including premium and special awards and medals.
     #[prost(uint32, tag = "2")]
-    pub credits_earned: u32,
+    pub total_credits: u32,
 
     /// Combat XP, including premium.
     #[prost(uint32, tag = "3")]
-    pub combat_xp: u32,
+    pub total_xp: u32,
+
+    #[prost(uint32, tag = "4")]
+    pub n_shots: u32,
+
+    #[prost(uint32, tag = "5")]
+    pub n_hits: u32,
+
+    #[prost(uint32, tag = "6")]
+    pub n_splashes: u32,
+
+    #[prost(uint32, tag = "7")]
+    pub n_penetrations: u32,
 
     #[prost(uint32, tag = "8")]
     pub damage_dealt: u32,
