@@ -200,7 +200,7 @@ pub struct Author {
     /// # Note
     ///
     /// The field is `-2` if the player is auto-destroyed by inactivity.
-    #[prost(int32, tag = "2")]
+    #[prost(int32, tag = "1")]
     pub hitpoints_left: i32,
 
     /// Earned credits, including premium and special awards and medals.
