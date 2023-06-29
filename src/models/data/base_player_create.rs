@@ -37,7 +37,7 @@ pub struct BasePlayerCreate {
     pub player_wait_times: Option<HashMap<u32, f64>>,
 
     #[serde(rename(deserialize = "accountDatabaseIds"))]
-    pub account_database_ids: Vec<u32>,
+    pub account_database_ids: Option<Vec<u32>>,
 
     #[serde(default, rename(deserialize = "turboBattlesStats"))]
     pub turbo_battles_statistics: Option<TurboBattlesStatistics>,
