@@ -93,6 +93,9 @@ pub struct PlayerInfo {
 
     #[prost(message, required, tag = "7")]
     pub avatar: Avatar,
+
+    #[prost(uint32, optional, tag = "9")]
+    pub rank: Option<u32>,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, Enumeration, Serialize)]

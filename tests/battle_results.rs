@@ -139,3 +139,25 @@ fn room_type_ok() -> Result<()> {
     assert_eq!(battle_results.room_type(), RoomType::MadGames);
     Ok(())
 }
+
+/// Training room on Strv K with a rank.
+#[test]
+fn rank_ok() -> Result<()> {
+    let battle_results = Replay::open(File::open(
+        "replays/20230802_2133__helaas_pindakaas_S31_Strv_K_15193856522497923.wotbreplay",
+    )?)?
+    .read_battle_results()?;
+    assert_eq!(battle_results.players[0].info.rank, Some(12));
+    Ok(())
+}
+
+/// Training room on Regressor with no rank.
+#[test]
+fn no_rank_ok() -> Result<()> {
+    let battle_results = Replay::open(File::open(
+        "replays/20230802_2136__helaas_pindakaas_Oth38_50TP_Tyszkiewicza_S1_15188303129784363.wotbreplay",
+    )?)?
+    .read_battle_results()?;
+    assert_eq!(battle_results.players[0].info.rank, None);
+    Ok(())
+}
