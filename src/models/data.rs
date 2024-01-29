@@ -63,8 +63,7 @@ fn assert_magic<T: Into<u32> + PartialEq>(actual: T, expected: T) -> Result {
 #[inline]
 fn read_length_delimited(reader: &mut impl Read) -> Result<Vec<u8>> {
     let length = reader.read_u8()? as usize;
-    let mut buffer = Vec::new();
-    buffer.resize(length, 0);
+    let mut buffer = vec![0; length];
     reader.read_exact(&mut buffer)?;
     Ok(buffer)
 }
@@ -76,8 +75,7 @@ fn read_string(reader: &mut impl Read) -> Result<String> {
 
 #[inline]
 fn read_pickled<T: DeserializeOwned>(reader: &mut impl Read, length: usize) -> Result<T> {
-    let mut buffer = Vec::new();
-    buffer.resize(length, 0);
+    let mut buffer = vec![0; length];
     reader.read_exact(&mut buffer)?;
     Ok(serde_pickle::from_slice(&buffer, Default::default())?)
 }

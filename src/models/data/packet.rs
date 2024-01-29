@@ -35,7 +35,9 @@ impl Packet {
     ///
     /// Parsed packet, or [`None`], when no packets are left.
     pub fn from_reader(reader: &mut impl Read) -> Result<Option<Self>> {
-        let Ok(length) = reader.read_u32::<LittleEndian>() else { return Ok(None) };
+        let Ok(length) = reader.read_u32::<LittleEndian>() else {
+            return Ok(None);
+        };
         let type_ = reader.read_u32::<LittleEndian>()?;
         let clock_secs = reader.read_f32::<LittleEndian>()?;
         let raw_payload = Self::read_raw_payload(reader, length as usize)?;
@@ -57,8 +59,7 @@ impl Packet {
     }
 
     fn read_raw_payload(reader: &mut impl Read, length: usize) -> Result<Vec<u8>> {
-        let mut buffer = Vec::new();
-        buffer.resize(length, 0);
+        let mut buffer = vec![0; length];
         reader.read_exact(&mut buffer)?;
         Ok(buffer)
     }

@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BasePlayerCreate {
     #[serde(default, rename(deserialize = "playersBattleCategoriesIds"))]
-    pub players_battle_categories_ids: Option<HashMap<u32, (u8, u32)>>,
+    pub players_battle_categories_ids: Option<HashMap<u64, (u8, u32)>>,
 
     #[serde(rename(deserialize = "battleLevel"))]
     pub battle_level: u8,
@@ -34,10 +34,10 @@ pub struct BasePlayerCreate {
     pub average_mm_ratings: Option<Vec<Option<f64>>>,
 
     #[serde(default, rename(deserialize = "playerWaitTimes"))]
-    pub player_wait_times: Option<HashMap<u32, f64>>,
+    pub player_wait_times: Option<HashMap<u64, f64>>,
 
     #[serde(rename(deserialize = "accountDatabaseIds"))]
-    pub account_database_ids: Option<Vec<u32>>,
+    pub account_database_ids: Option<Vec<u64>>,
 
     #[serde(default, rename(deserialize = "turboBattlesStats"))]
     pub turbo_battles_statistics: Option<TurboBattlesStatistics>,
